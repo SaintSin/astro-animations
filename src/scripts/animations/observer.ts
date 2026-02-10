@@ -103,7 +103,7 @@ function parseStaggerConfig(el: HTMLElement): StaggerConfig | null {
 // CSS custom property helpers
 // ---------------------------------------------------------------------------
 
-/** Custom properties set by applyAnimationProperties — cleared on destroy */
+/** Inline style properties set by JS — cleared on destroy */
 const ANIMATION_PROPS = [
   '--animate-duration',
   '--animate-delay',
@@ -112,7 +112,31 @@ const ANIMATION_PROPS = [
   '--animate-translate',
   '--animate-scale',
   '--animate-rotate',
+  'will-change',
 ] as const;
+
+// ---------------------------------------------------------------------------
+// will-change lifecycle
+// ---------------------------------------------------------------------------
+
+/** Promote element to compositor layer just before animation starts */
+function promoteElement(el: HTMLElement): void {
+  el.style.willChange = 'opacity, transform';
+}
+
+/**
+ * Clear will-change after animation finishes to release compositor memory.
+ * Uses a one-shot listener so it fires exactly once per animation cycle.
+ */
+function listenForAnimationEnd(el: HTMLElement): void {
+  el.addEventListener(
+    'animationend',
+    () => {
+      el.style.willChange = '';
+    },
+    { once: true },
+  );
+}
 
 function intensityToRotate(value: AnimateConfig['intensity']): number {
   if (typeof value === 'string') {
@@ -188,7 +212,9 @@ function getOrCreateObserver(threshold: number): IntersectionObserver {
         if (entry.isIntersecting) {
           if (animatedElements.has(el) && !repeatElements.has(el)) continue;
 
+          promoteElement(el);
           el.classList.add('is-animating');
+          listenForAnimationEnd(el);
           animatedElements.add(el);
 
           if (!repeatElements.has(el)) {
@@ -249,7 +275,9 @@ function setupStaggerGroup(
       for (const entry of entries) {
         if (entry.isIntersecting) {
           for (const child of children) {
+            promoteElement(child);
             child.classList.add('is-animating');
+            listenForAnimationEnd(child);
             animatedElements.add(child);
           }
           observer.unobserve(entry.target);

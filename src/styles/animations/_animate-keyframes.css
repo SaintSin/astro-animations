@@ -146,44 +146,44 @@
 @keyframes flip-in-up {
   from {
     opacity: var(--animate-start-opacity, 0);
-    transform: rotateX(var(--animate-rotate));
+    transform: perspective(1000px) rotateX(var(--animate-rotate));
   }
   to {
     opacity: 1;
-    transform: rotateX(0deg);
+    transform: perspective(1000px) rotateX(0deg);
   }
 }
 
 @keyframes flip-in-down {
   from {
     opacity: var(--animate-start-opacity, 0);
-    transform: rotateX(calc(var(--animate-rotate) * -1));
+    transform: perspective(1000px) rotateX(calc(var(--animate-rotate) * -1));
   }
   to {
     opacity: 1;
-    transform: rotateX(0deg);
+    transform: perspective(1000px) rotateX(0deg);
   }
 }
 
 @keyframes flip-in-left {
   from {
     opacity: var(--animate-start-opacity, 0);
-    transform: rotateY(calc(var(--animate-rotate) * -1));
+    transform: perspective(1000px) rotateY(calc(var(--animate-rotate) * -1));
   }
   to {
     opacity: 1;
-    transform: rotateY(0deg);
+    transform: perspective(1000px) rotateY(0deg);
   }
 }
 
 @keyframes flip-in-right {
   from {
     opacity: var(--animate-start-opacity, 0);
-    transform: rotateY(var(--animate-rotate));
+    transform: perspective(1000px) rotateY(var(--animate-rotate));
   }
   to {
     opacity: 1;
-    transform: rotateY(0deg);
+    transform: perspective(1000px) rotateY(0deg);
   }
 }
 
@@ -191,44 +191,44 @@
 @keyframes fold-in-up {
   from {
     opacity: var(--animate-start-opacity, 0);
-    transform: rotateX(var(--animate-rotate));
+    transform: perspective(1000px) rotateX(var(--animate-rotate));
   }
   to {
     opacity: 1;
-    transform: rotateX(0deg);
+    transform: perspective(1000px) rotateX(0deg);
   }
 }
 
 @keyframes fold-in-down {
   from {
     opacity: var(--animate-start-opacity, 0);
-    transform: rotateX(var(--animate-rotate));
+    transform: perspective(1000px) rotateX(var(--animate-rotate));
   }
   to {
     opacity: 1;
-    transform: rotateX(0deg);
+    transform: perspective(1000px) rotateX(0deg);
   }
 }
 
 @keyframes fold-in-left {
   from {
     opacity: var(--animate-start-opacity, 0);
-    transform: rotateY(var(--animate-rotate));
+    transform: perspective(1000px) rotateY(var(--animate-rotate));
   }
   to {
     opacity: 1;
-    transform: rotateY(0deg);
+    transform: perspective(1000px) rotateY(0deg);
   }
 }
 
 @keyframes fold-in-right {
   from {
     opacity: var(--animate-start-opacity, 0);
-    transform: rotateY(var(--animate-rotate));
+    transform: perspective(1000px) rotateY(var(--animate-rotate));
   }
   to {
     opacity: 1;
-    transform: rotateY(0deg);
+    transform: perspective(1000px) rotateY(0deg);
   }
 }
 

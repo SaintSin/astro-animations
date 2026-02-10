@@ -5,6 +5,13 @@
  * JS sets data-animate-ready on <body> after applying initial hidden states.
  */
 
+/* Prevent horizontal scrollbar from off-screen translateX (slide/bounce/roll).
+   clip avoids creating a scroll container (unlike hidden), so it won't
+   interfere with sticky positioning or other layout features. */
+[data-animate-ready] {
+  overflow-x: clip;
+}
+
 /* Custom property defaults */
 [data-animate] {
   --animate-duration: 700ms;
@@ -16,17 +23,15 @@
   --animate-rotate: 90deg;
 }
 
-/* Hide elements until JS is ready — progressive enhancement guard */
+/* Hide elements until JS is ready — progressive enhancement guard.
+   will-change is set/cleared by JS around animation lifecycle to
+   avoid keeping compositor layers allocated permanently. */
 [data-animate-ready] [data-animate] {
   opacity: var(--animate-start-opacity);
-  will-change: opacity, transform;
 }
 
-/* 3D perspective context for flip and fold animations */
-[data-animate-ready] [data-animate="flip"],
-[data-animate-ready] [data-animate="fold"] {
-  perspective: 1000px;
-}
+/* 3D perspective for flip/fold is applied via perspective() in keyframes
+   rather than the perspective property, which only affects children. */
 
 /* Fold transform-origin per direction */
 [data-animate="fold"][data-animate-direction="up"],
