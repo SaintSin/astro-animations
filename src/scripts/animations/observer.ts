@@ -103,6 +103,17 @@ function parseStaggerConfig(el: HTMLElement): StaggerConfig | null {
 // CSS custom property helpers
 // ---------------------------------------------------------------------------
 
+/** Custom properties set by applyAnimationProperties — cleared on destroy */
+const ANIMATION_PROPS = [
+  '--animate-duration',
+  '--animate-delay',
+  '--animate-easing',
+  '--animate-start-opacity',
+  '--animate-translate',
+  '--animate-scale',
+  '--animate-rotate',
+] as const;
+
 function intensityToRotate(value: AnimateConfig['intensity']): number {
   if (typeof value === 'string') {
     return ROTATION_PRESETS[value] ?? ROTATION_PRESETS.normal;
@@ -138,26 +149,35 @@ function applyAnimationProperties(
   style.setProperty('--animate-rotate', `${rotate}deg`);
 }
 
-/** Remove animation state for re-triggering */
-function resetAnimation(el: HTMLElement): void {
-  el.classList.remove('is-animating');
+/** Remove inline CSS custom properties from an element */
+function clearAnimationProperties(el: HTMLElement): void {
+  for (const prop of ANIMATION_PROPS) {
+    el.style.removeProperty(prop);
+  }
 }
 
 // ---------------------------------------------------------------------------
 // Observer management
+//
+// Using Set (not WeakSet) for element tracking so we can clear on destroy.
+// All references are released explicitly in destroyInViewAnimations()
+// which runs on every View Transition swap.
 // ---------------------------------------------------------------------------
 
-/** Grouped observers by threshold value */
-const observers = new Map<number, IntersectionObserver>();
+/** All observer instances — disconnected and released on destroy */
+const allObservers: IntersectionObserver[] = [];
+
+/** Threshold-keyed cache for solo element observers */
+const thresholdCache = new Map<number, IntersectionObserver>();
 
 /** Track which elements use repeat="every" */
-const repeatElements = new WeakSet<HTMLElement>();
+let repeatElements = new Set<HTMLElement>();
 
 /** Track elements that have already animated (for once-only) */
-const animatedElements = new WeakSet<HTMLElement>();
+let animatedElements = new Set<HTMLElement>();
 
-function getObserver(threshold: number): IntersectionObserver {
-  const existing = observers.get(threshold);
+function getOrCreateObserver(threshold: number): IntersectionObserver {
+  const existing = thresholdCache.get(threshold);
   if (existing) return existing;
 
   const observer = new IntersectionObserver(
@@ -166,26 +186,24 @@ function getObserver(threshold: number): IntersectionObserver {
         const el = entry.target as HTMLElement;
 
         if (entry.isIntersecting) {
-          // Skip if already animated and not a repeat element
           if (animatedElements.has(el) && !repeatElements.has(el)) continue;
 
           el.classList.add('is-animating');
           animatedElements.add(el);
 
-          // For once-only, stop observing after animation
           if (!repeatElements.has(el)) {
             observer.unobserve(el);
           }
         } else if (repeatElements.has(el)) {
-          // Re-hide for repeat elements when they leave
-          resetAnimation(el);
+          el.classList.remove('is-animating');
         }
       }
     },
     { threshold },
   );
 
-  observers.set(threshold, observer);
+  thresholdCache.set(threshold, observer);
+  allObservers.push(observer);
   return observer;
 }
 
@@ -223,8 +241,9 @@ function setupStaggerGroup(
     applyAnimationProperties(child, config, staggerDelay);
   }
 
-  // Observe the parent — when it enters, animate all children
-  const threshold = 0.1;
+  // Observe the parent — when it enters, animate all children.
+  // The callback closes over `children`; disconnect() in destroy
+  // releases the observer so the closure and DOM refs are GC'd.
   const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -237,11 +256,11 @@ function setupStaggerGroup(
         }
       }
     },
-    { threshold },
+    { threshold: 0.1 },
   );
 
   observer.observe(parent);
-  observers.set(-1 - observers.size, observer); // Store for cleanup with unique key
+  allObservers.push(observer);
 }
 
 // ---------------------------------------------------------------------------
@@ -253,7 +272,7 @@ export function initInViewAnimations(): void {
   const staggerParents = document.querySelectorAll<HTMLElement>(
     '[data-animate-stagger]',
   );
-  const staggerChildSet = new WeakSet<HTMLElement>();
+  const staggerChildSet = new Set<HTMLElement>();
 
   for (const parent of staggerParents) {
     const staggerCfg = parseStaggerConfig(parent);
@@ -275,30 +294,33 @@ export function initInViewAnimations(): void {
     const config = parseAnimateConfig(el);
     if (!config) continue;
 
-    // Set CSS custom properties for this element's animation
     applyAnimationProperties(el, config);
 
-    // Track repeat elements
     if (config.repeat === 'every') {
       repeatElements.add(el);
     }
 
-    // Observe with the element's threshold
-    const observer = getObserver(config.threshold);
+    const observer = getOrCreateObserver(config.threshold);
     observer.observe(el);
   }
 }
 
 export function destroyInViewAnimations(): void {
-  // Disconnect all observers
-  for (const observer of observers.values()) {
+  // Disconnect all observers — releases element refs held in callbacks
+  for (const observer of allObservers) {
     observer.disconnect();
   }
-  observers.clear();
+  allObservers.length = 0;
+  thresholdCache.clear();
 
-  // Clear animation state from all elements
+  // Release DOM references held in tracking sets
+  repeatElements = new Set();
+  animatedElements = new Set();
+
+  // Clear animation state and inline custom properties
   const allAnimated = document.querySelectorAll<HTMLElement>('[data-animate]');
   for (const el of allAnimated) {
     el.classList.remove('is-animating');
+    clearAnimationProperties(el);
   }
 }
