@@ -1,0 +1,103 @@
+/* styles/animations/_scroll-timeline.css
+ *
+ * Pure CSS scroll-linked animations using animation-timeline: view().
+ * Zero JS overhead — only targets elements with data-scroll-css.
+ * Uses --scroll-speed custom property for configurable intensity
+ * (set inline via the ScrollEffect component or manually).
+ */
+
+/* -- Parallax -------------------------------------------------------------- */
+[data-scroll-effect="parallax"][data-scroll-css] {
+  animation: scroll-parallax linear both;
+  animation-timeline: view();
+  animation-range: entry 0% exit 100%;
+}
+
+@keyframes scroll-parallax {
+  from {
+    transform: translateY(var(--scroll-speed, 50px));
+  }
+  to {
+    transform: translateY(calc(var(--scroll-speed, 50px) * -1));
+  }
+}
+
+/* -- Fade ------------------------------------------------------------------ */
+[data-scroll-effect="fade"][data-scroll-css] {
+  animation: scroll-fade linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
+}
+
+@keyframes scroll-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* -- Scale ----------------------------------------------------------------- */
+[data-scroll-effect="scale"][data-scroll-css] {
+  animation: scroll-scale linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 50%;
+}
+
+@keyframes scroll-scale {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* -- Rotate ---------------------------------------------------------------- */
+[data-scroll-effect="rotate"][data-scroll-css] {
+  animation: scroll-rotate linear both;
+  animation-timeline: view();
+  animation-range: entry 0% exit 100%;
+}
+
+@keyframes scroll-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(var(--scroll-rotate, 180deg));
+  }
+}
+
+/* -- Blur ------------------------------------------------------------------ */
+[data-scroll-effect="blur"][data-scroll-css] {
+  animation: scroll-blur linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 50%;
+}
+
+@keyframes scroll-blur {
+  from {
+    filter: blur(10px);
+  }
+  to {
+    filter: blur(0px);
+  }
+}
+
+/* -- Horizontal ------------------------------------------------------------ */
+[data-scroll-effect="horizontal"][data-scroll-css] {
+  animation: scroll-horizontal linear both;
+  animation-timeline: view();
+  animation-range: entry 0% exit 100%;
+}
+
+@keyframes scroll-horizontal {
+  from {
+    transform: translateX(calc(var(--scroll-speed, 100px) * -1));
+  }
+  to {
+    transform: translateX(var(--scroll-speed, 100px));
+  }
+}

@@ -1,0 +1,147 @@
+/* styles/animations/_animate-base.css
+ *
+ * Base styles for scroll-triggered animations.
+ * Progressive enhancement: elements are visible by default.
+ * JS sets data-animate-ready on <body> after applying initial hidden states.
+ */
+
+/* Custom property defaults */
+[data-animate] {
+  --animate-duration: 700ms;
+  --animate-delay: 0ms;
+  --animate-easing: cubic-bezier(0, 0, 0.3, 1); /* ease-out-3 */
+  --animate-start-opacity: 0;
+  --animate-translate: 15vh;
+  --animate-scale: 0.85;
+  --animate-rotate: 90deg;
+}
+
+/* Hide elements until JS is ready — progressive enhancement guard */
+[data-animate-ready] [data-animate] {
+  opacity: var(--animate-start-opacity);
+  will-change: opacity, transform;
+}
+
+/* 3D perspective context for flip and fold animations */
+[data-animate-ready] [data-animate="flip"],
+[data-animate-ready] [data-animate="fold"] {
+  perspective: 1000px;
+}
+
+/* Fold transform-origin per direction */
+[data-animate="fold"][data-animate-direction="up"],
+[data-animate="fold"]:not([data-animate-direction]) {
+  transform-origin: 50% 0%;
+}
+
+[data-animate="fold"][data-animate-direction="down"] {
+  transform-origin: 50% 100%;
+}
+
+[data-animate="fold"][data-animate-direction="left"] {
+  transform-origin: 0% 50%;
+}
+
+[data-animate="fold"][data-animate-direction="right"] {
+  transform-origin: 100% 50%;
+}
+
+/* ---- Animated state ---- */
+/* The .is-animating class is toggled by the IntersectionObserver */
+[data-animate-ready] [data-animate].is-animating {
+  opacity: 1;
+  animation-duration: var(--animate-duration);
+  animation-timing-function: var(--animate-easing);
+  animation-delay: var(--animate-delay);
+  animation-fill-mode: both;
+}
+
+/* Map animation type + direction to the correct @keyframes */
+[data-animate="fade"].is-animating {
+  animation-name: fade-in;
+}
+
+/* Slide */
+[data-animate="slide"].is-animating,
+[data-animate="slide"][data-animate-direction="up"].is-animating {
+  animation-name: slide-in-up;
+}
+[data-animate="slide"][data-animate-direction="down"].is-animating {
+  animation-name: slide-in-down;
+}
+[data-animate="slide"][data-animate-direction="left"].is-animating {
+  animation-name: slide-in-left;
+}
+[data-animate="slide"][data-animate-direction="right"].is-animating {
+  animation-name: slide-in-right;
+}
+
+/* Bounce */
+[data-animate="bounce"].is-animating,
+[data-animate="bounce"][data-animate-direction="up"].is-animating {
+  animation-name: bounce-in-up;
+}
+[data-animate="bounce"][data-animate-direction="down"].is-animating {
+  animation-name: bounce-in-down;
+}
+[data-animate="bounce"][data-animate-direction="left"].is-animating {
+  animation-name: bounce-in-left;
+}
+[data-animate="bounce"][data-animate-direction="right"].is-animating {
+  animation-name: bounce-in-right;
+}
+
+/* Zoom */
+[data-animate="zoom"].is-animating {
+  animation-name: zoom-in;
+}
+
+/* Flip */
+[data-animate="flip"].is-animating,
+[data-animate="flip"][data-animate-direction="up"].is-animating {
+  animation-name: flip-in-up;
+}
+[data-animate="flip"][data-animate-direction="down"].is-animating {
+  animation-name: flip-in-down;
+}
+[data-animate="flip"][data-animate-direction="left"].is-animating {
+  animation-name: flip-in-left;
+}
+[data-animate="flip"][data-animate-direction="right"].is-animating {
+  animation-name: flip-in-right;
+}
+
+/* Fold */
+[data-animate="fold"].is-animating,
+[data-animate="fold"][data-animate-direction="up"].is-animating {
+  animation-name: fold-in-up;
+}
+[data-animate="fold"][data-animate-direction="down"].is-animating {
+  animation-name: fold-in-down;
+}
+[data-animate="fold"][data-animate-direction="left"].is-animating {
+  animation-name: fold-in-left;
+}
+[data-animate="fold"][data-animate-direction="right"].is-animating {
+  animation-name: fold-in-right;
+}
+
+/* Roll */
+[data-animate="roll"].is-animating {
+  animation-name: roll-in;
+}
+
+/* ---- Intensity presets ---- */
+[data-animate-intensity="subtle"] {
+  --animate-translate: 5vh;
+  --animate-scale: 0.95;
+  --animate-rotate: 45deg;
+}
+
+/* "normal" is the default — values set on [data-animate] above */
+
+[data-animate-intensity="strong"] {
+  --animate-translate: 30vh;
+  --animate-scale: 0.7;
+  --animate-rotate: 180deg;
+}

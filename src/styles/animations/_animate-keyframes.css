@@ -1,0 +1,245 @@
+/* styles/animations/_animate-keyframes.css
+ *
+ * CSS @keyframes for all 7 animation types.
+ * Intensity is driven by CSS custom properties set on each element
+ * by the IntersectionObserver script (--animate-translate, --animate-scale,
+ * --animate-rotate). This keeps the keyframes reusable across intensity levels.
+ */
+
+/* -- Fade ------------------------------------------------------------------ */
+@keyframes fade-in {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* -- Slide ----------------------------------------------------------------- */
+@keyframes slide-in-up {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: translateY(var(--animate-translate));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-down {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: translateY(calc(var(--animate-translate) * -1));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: translateX(var(--animate-translate));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: translateX(calc(var(--animate-translate) * -1));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* -- Bounce ---------------------------------------------------------------- */
+@keyframes bounce-in-up {
+  0% {
+    opacity: var(--animate-start-opacity, 0);
+    transform: translateY(var(--animate-translate));
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(calc(var(--animate-translate) * -0.2));
+  }
+  80% {
+    transform: translateY(calc(var(--animate-translate) * 0.05));
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce-in-down {
+  0% {
+    opacity: var(--animate-start-opacity, 0);
+    transform: translateY(calc(var(--animate-translate) * -1));
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(calc(var(--animate-translate) * 0.2));
+  }
+  80% {
+    transform: translateY(calc(var(--animate-translate) * -0.05));
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce-in-left {
+  0% {
+    opacity: var(--animate-start-opacity, 0);
+    transform: translateX(var(--animate-translate));
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(calc(var(--animate-translate) * -0.2));
+  }
+  80% {
+    transform: translateX(calc(var(--animate-translate) * 0.05));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounce-in-right {
+  0% {
+    opacity: var(--animate-start-opacity, 0);
+    transform: translateX(calc(var(--animate-translate) * -1));
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(calc(var(--animate-translate) * 0.2));
+  }
+  80% {
+    transform: translateX(calc(var(--animate-translate) * -0.05));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* -- Zoom ------------------------------------------------------------------ */
+@keyframes zoom-in {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: scale(var(--animate-scale));
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* -- Flip ------------------------------------------------------------------ */
+@keyframes flip-in-up {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: rotateX(var(--animate-rotate));
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes flip-in-down {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: rotateX(calc(var(--animate-rotate) * -1));
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes flip-in-left {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: rotateY(calc(var(--animate-rotate) * -1));
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes flip-in-right {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: rotateY(var(--animate-rotate));
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+}
+
+/* -- Fold ------------------------------------------------------------------ */
+@keyframes fold-in-up {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: rotateX(var(--animate-rotate));
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes fold-in-down {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: rotateX(var(--animate-rotate));
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes fold-in-left {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: rotateY(var(--animate-rotate));
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes fold-in-right {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: rotateY(var(--animate-rotate));
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+}
+
+/* -- Roll ------------------------------------------------------------------ */
+@keyframes roll-in {
+  from {
+    opacity: var(--animate-start-opacity, 0);
+    transform: translateX(calc(var(--animate-translate) * -1)) rotate(calc(var(--animate-rotate) * -1));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+}

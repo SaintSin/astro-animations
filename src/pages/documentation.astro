@@ -1,0 +1,923 @@
+---
+// pages/documentation.astro
+
+import Layout from '@layouts/BaseLayout.astro';
+
+const meta = {
+  title: 'Documentation — PandaMotion Lite',
+  description: 'API reference for the PandaMotion Lite animation system',
+  imageOG: 'generic-social-1200x630.png',
+  altOG: 'Documentation',
+};
+---
+
+<Layout metaData={meta}>
+  <main class="wrapper flow docs">
+    <h1>Documentation</h1>
+    <p>
+      A lightweight, data-attribute-driven animation system for Astro using CSS
+      <code>@keyframes</code>, <code>IntersectionObserver</code>, and CSS Scroll
+      Timeline. Add animations declaratively with HTML attributes or Astro
+      components &mdash; no external dependencies required.
+    </p>
+
+    <!-- ============ Quick Start ============ -->
+    <section class="flow">
+      <h2>Quick Start</h2>
+      <p>
+        Add <code>data-animate</code> to any element. It will animate when
+        scrolled into view.
+      </p>
+      <pre><code>&lt;h2 data-animate="fade"&gt;Hello&lt;/h2&gt;
+
+&lt;div data-animate="slide" data-animate-direction="left"&gt;
+  Slides in from the left
+&lt;/div&gt;</code></pre>
+      <p>
+        Or use the <code>&lt;Animate&gt;</code> component for a props-based API:
+      </p>
+      <pre><code>---
+import Animate from '@components/animation/Animate.astro';
+---
+
+&lt;Animate type="slide" direction="left" easing="spring"&gt;
+  &lt;div&gt;Slides in from the left with spring easing&lt;/div&gt;
+&lt;/Animate&gt;</code></pre>
+    </section>
+
+    <!-- ============ Setup ============ -->
+    <section class="flow">
+      <h2>Setup</h2>
+      <p>
+        PandaMotion Lite is designed to be portable across Astro projects. To
+        integrate it:
+      </p>
+      <ol>
+        <li>
+          Copy these directories into your <code>src/</code>:
+          <ul>
+            <li><code>components/animation/</code></li>
+            <li><code>scripts/animations/</code></li>
+            <li><code>styles/animations/</code></li>
+            <li><code>types/animations.ts</code></li>
+          </ul>
+        </li>
+        <li>
+          Import the animation CSS in your global stylesheet:
+          <pre><code>@import 'animations/_animate-keyframes.css' layer(animations);
+@import 'animations/_animate-base.css' layer(animations);
+@import 'animations/_scroll-timeline.css' layer(animations);
+@import 'animations/_reduced-motion.css' layer(animations);</code></pre>
+        </li>
+        <li>
+          Add the init script to your base layout:
+          <pre><code>&lt;script&gt;
+  import '@scripts/animations/init';
+&lt;/script&gt;</code></pre>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============ Animation Types ============ -->
+    <section class="flow">
+      <h2>Animation Types</h2>
+      <p>
+        Seven built-in animation types, set via <code>data-animate</code>.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Supports Direction</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>fade</code></td>
+              <td>Opacity transition</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td><code>slide</code></td>
+              <td>Translates in from an edge</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><code>bounce</code></td>
+              <td>Bouncy entrance with overshoot</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><code>zoom</code></td>
+              <td>Scales up into place</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td><code>flip</code></td>
+              <td>3D rotation on X or Y axis</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><code>fold</code></td>
+              <td>Unfolds from an edge</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><code>roll</code></td>
+              <td>Combined translate + rotate</td>
+              <td>No</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ Data Attributes ============ -->
+    <section class="flow">
+      <h2>Data Attributes</h2>
+
+      <h3>Scroll-Triggered Animations</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Description</th>
+              <th>Values</th>
+              <th>Default</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>data-animate</code></td>
+              <td>Animation type to play when the element enters the viewport</td>
+              <td>
+                <code>fade</code>, <code>slide</code>, <code>bounce</code>,
+                <code>zoom</code>, <code>flip</code>, <code>fold</code>,
+                <code>roll</code>
+              </td>
+              <td>required</td>
+            </tr>
+            <tr>
+              <td><code>data-animate-direction</code></td>
+              <td>Direction the element animates from</td>
+              <td>
+                <code>up</code>, <code>down</code>, <code>left</code>,
+                <code>right</code>
+              </td>
+              <td><code>up</code></td>
+            </tr>
+            <tr>
+              <td><code>data-animate-duration</code></td>
+              <td>How long the animation takes to complete</td>
+              <td>milliseconds</td>
+              <td><code>700</code></td>
+            </tr>
+            <tr>
+              <td><code>data-animate-delay</code></td>
+              <td>Wait time before the animation starts</td>
+              <td>milliseconds</td>
+              <td><code>0</code></td>
+            </tr>
+            <tr>
+              <td><code>data-animate-easing</code></td>
+              <td>Timing curve that controls acceleration</td>
+              <td>See <a href="#easing">Easing</a> section</td>
+              <td><code>ease-out-3</code></td>
+            </tr>
+            <tr>
+              <td><code>data-animate-intensity</code></td>
+              <td>How far the element travels &mdash; preset name or numeric 0&ndash;1</td>
+              <td>
+                <code>subtle</code>, <code>normal</code>, <code>strong</code>,
+                <code>0</code>&ndash;<code>1</code>
+              </td>
+              <td><code>normal</code></td>
+            </tr>
+            <tr>
+              <td><code>data-animate-opacity</code></td>
+              <td>Starting opacity before the animation begins</td>
+              <td><code>0</code>&ndash;<code>1</code></td>
+              <td><code>0</code></td>
+            </tr>
+            <tr>
+              <td><code>data-animate-repeat</code></td>
+              <td>Whether the animation replays each time the element re-enters the viewport</td>
+              <td><code>once</code>, <code>every</code></td>
+              <td><code>once</code></td>
+            </tr>
+            <tr>
+              <td><code>data-animate-threshold</code></td>
+              <td>
+                Fraction of the element that must be visible before the animation
+                triggers. <code>0</code> fires as soon as any part appears;
+                <code>1</code> waits until the entire element is in view
+              </td>
+              <td><code>0</code>&ndash;<code>1</code></td>
+              <td><code>0.2</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Stagger (on parent container)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Values</th>
+              <th>Default</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>data-animate-stagger</code></td>
+              <td>milliseconds between each child</td>
+              <td><code>100</code></td>
+            </tr>
+            <tr>
+              <td><code>data-animate-stagger-from</code></td>
+              <td>
+                <code>first</code>, <code>last</code>, <code>center</code>
+              </td>
+              <td><code>first</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Scroll-Linked Effects</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Values</th>
+              <th>Default</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>data-scroll-effect</code></td>
+              <td>
+                <code>parallax</code>, <code>fade</code>, <code>scale</code>,
+                <code>rotate</code>, <code>blur</code>, <code>horizontal</code>
+              </td>
+              <td>required</td>
+            </tr>
+            <tr>
+              <td><code>data-scroll-speed</code></td>
+              <td>number (e.g. <code>0.5</code>)</td>
+              <td><code>0.5</code></td>
+            </tr>
+            <tr>
+              <td><code>data-scroll-css</code></td>
+              <td>presence = use CSS Scroll Timeline</td>
+              <td>Always set in Lite</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ Easing ============ -->
+    <section class="flow" id="easing">
+      <h2>Easing Functions</h2>
+      <p>
+        36 easing presets sourced from
+        <a href="https://open-props.style">Open Props</a>. Set via
+        <code>data-animate-easing</code>.
+      </p>
+
+      <div class="grid" data-layout="50-50">
+        <div class="flow">
+          <h3>Ease (cubic-bezier)</h3>
+          <ul>
+            <li><code>ease-1</code> &ndash; <code>ease-5</code></li>
+            <li><code>ease-in-1</code> &ndash; <code>ease-in-5</code></li>
+            <li><code>ease-out-1</code> &ndash; <code>ease-out-5</code></li>
+            <li>
+              <code>ease-in-out-1</code> &ndash; <code>ease-in-out-5</code>
+            </li>
+          </ul>
+        </div>
+        <div class="flow">
+          <h3>Spring, Bounce &amp; Elastic</h3>
+          <ul>
+            <li>
+              <code>spring-1</code> &ndash; <code>spring-5</code>
+              (linear())
+            </li>
+            <li>
+              <code>bounce-1</code> &ndash; <code>bounce-5</code>
+              (linear())
+            </li>
+            <li>
+              <code>elastic-out-1</code> &ndash; <code>elastic-out-5</code>
+            </li>
+            <li>
+              <code>elastic-in-1</code> &ndash; <code>elastic-in-5</code>
+            </li>
+            <li>
+              <code>spring</code> &mdash; alias for <code>spring-3</code>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <p>
+        The <code>spring</code> keyword maps to Open Props' <code>--ease-spring-3</code>,
+        a <code>linear()</code> approximation of a physics spring. Use
+        <code>spring-1</code> (gentle) through <code>spring-5</code> (snappy) for
+        fine-grained control.
+      </p>
+    </section>
+
+    <!-- ============ Intensity ============ -->
+    <section class="flow">
+      <h2>Intensity Levels</h2>
+      <p>
+        Controls how far elements travel. Set via
+        <code>data-animate-intensity</code>. Accepts a named preset or a numeric
+        <code>0</code>&ndash;<code>1</code> value where <code>1.0</code> starts
+        the element fully off-screen. Translation values use viewport units
+        (<code>vh</code>) so animations scale proportionally across screen sizes.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Translate</th>
+              <th>Scale</th>
+              <th>Rotate</th>
+              <th>Numeric</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>subtle</code></td>
+              <td>5vh</td>
+              <td>0.95</td>
+              <td>45deg</td>
+              <td>0.05</td>
+            </tr>
+            <tr>
+              <td><code>normal</code></td>
+              <td>15vh</td>
+              <td>0.85</td>
+              <td>90deg</td>
+              <td>0.15</td>
+            </tr>
+            <tr>
+              <td><code>strong</code></td>
+              <td>30vh</td>
+              <td>0.70</td>
+              <td>180deg</td>
+              <td>0.30</td>
+            </tr>
+            <tr>
+              <td><em>custom</em></td>
+              <td>n &times; 100 vh</td>
+              <td>1 &minus; n</td>
+              <td>n &times; 180deg</td>
+              <td>0&ndash;1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Named presets (<code>subtle</code>, <code>normal</code>,
+        <code>strong</code>) are also available as CSS attribute selectors in
+        <code>_animate-base.css</code>, so they work without JS setting custom
+        properties. Numeric values are resolved at runtime by the
+        IntersectionObserver script.
+      </p>
+    </section>
+
+    <!-- ============ Stagger ============ -->
+    <section class="flow">
+      <h2>Staggered Animations</h2>
+      <p>
+        Set <code>data-animate-stagger</code> on a parent. Direct children with
+        <code>data-animate</code> will animate sequentially with the specified
+        delay between each.
+      </p>
+      <pre><code>&lt;div data-animate-stagger="150" data-animate-stagger-from="first"&gt;
+  &lt;div data-animate="slide" data-animate-direction="up"&gt;1&lt;/div&gt;
+  &lt;div data-animate="slide" data-animate-direction="up"&gt;2&lt;/div&gt;
+  &lt;div data-animate="slide" data-animate-direction="up"&gt;3&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      <p>
+        The <code>data-animate-stagger-from</code> attribute controls the
+        ordering: <code>first</code> (default) animates top-to-bottom,
+        <code>last</code> reverses the order, and <code>center</code> animates
+        outward from the middle.
+      </p>
+    </section>
+
+    <!-- ============ Components ============ -->
+    <section class="flow">
+      <h2>Astro Components</h2>
+
+      <h3>&lt;Animate&gt;</h3>
+      <p>
+        Declarative wrapper that renders <code>data-animate-*</code> attributes
+        from props.
+      </p>
+      <pre><code>---
+import Animate from '@components/animation/Animate.astro';
+---
+
+&lt;Animate type="slide" direction="left" easing="spring" duration={800}&gt;
+  &lt;div&gt;Content&lt;/div&gt;
+&lt;/Animate&gt;
+
+&lt;!-- Renders as a custom tag --&gt;
+&lt;Animate type="zoom" intensity="strong" as="article" class="card"&gt;
+  &lt;h3&gt;Title&lt;/h3&gt;
+&lt;/Animate&gt;</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Prop</th>
+              <th>Description</th>
+              <th>Type</th>
+              <th>Default</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>type</code></td>
+              <td>Animation type to play on enter</td>
+              <td>AnimationType</td>
+              <td>required</td>
+            </tr>
+            <tr>
+              <td><code>as</code></td>
+              <td>HTML tag to render</td>
+              <td>HTML tag name</td>
+              <td><code>div</code></td>
+            </tr>
+            <tr>
+              <td><code>direction</code></td>
+              <td>Direction the element animates from</td>
+              <td>
+                <code>up</code> | <code>down</code> | <code>left</code> |
+                <code>right</code>
+              </td>
+              <td><code>up</code></td>
+            </tr>
+            <tr>
+              <td><code>duration</code></td>
+              <td>How long the animation takes</td>
+              <td>number (ms)</td>
+              <td><code>700</code></td>
+            </tr>
+            <tr>
+              <td><code>delay</code></td>
+              <td>Wait time before animating</td>
+              <td>number (ms)</td>
+              <td><code>0</code></td>
+            </tr>
+            <tr>
+              <td><code>easing</code></td>
+              <td>Timing curve for acceleration</td>
+              <td>AnimateEasing</td>
+              <td><code>ease-out-3</code></td>
+            </tr>
+            <tr>
+              <td><code>intensity</code></td>
+              <td>How far the element travels &mdash; preset or 0&ndash;1</td>
+              <td>
+                <code>subtle</code> | <code>normal</code> |
+                <code>strong</code> | <code>0</code>&ndash;<code>1</code>
+              </td>
+              <td><code>normal</code></td>
+            </tr>
+            <tr>
+              <td><code>opacity</code></td>
+              <td>Starting opacity</td>
+              <td>number (0&ndash;1)</td>
+              <td><code>0</code></td>
+            </tr>
+            <tr>
+              <td><code>repeat</code></td>
+              <td>Replay on re-enter</td>
+              <td><code>once</code> | <code>every</code></td>
+              <td><code>once</code></td>
+            </tr>
+            <tr>
+              <td><code>threshold</code></td>
+              <td>Fraction of element visible before triggering</td>
+              <td>number (0&ndash;1)</td>
+              <td><code>0.2</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>&lt;ScrollEffect&gt;</h3>
+      <p>
+        Declarative wrapper for CSS scroll-linked effects. In PandaMotion Lite,
+        all scroll effects use CSS Scroll Timeline (no JS fallback).
+      </p>
+      <pre><code>---
+import ScrollEffect from '@components/animation/ScrollEffect.astro';
+---
+
+&lt;ScrollEffect type="parallax" speed={0.5}&gt;
+  &lt;div&gt;Parallax content&lt;/div&gt;
+&lt;/ScrollEffect&gt;
+
+&lt;ScrollEffect type="fade"&gt;
+  &lt;div&gt;Fades in with pure CSS&lt;/div&gt;
+&lt;/ScrollEffect&gt;</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Prop</th>
+              <th>Type</th>
+              <th>Default</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>type</code></td>
+              <td>
+                <code>parallax</code> | <code>fade</code> |
+                <code>scale</code> | <code>rotate</code> |
+                <code>blur</code> | <code>horizontal</code>
+              </td>
+              <td>required</td>
+            </tr>
+            <tr>
+              <td><code>as</code></td>
+              <td>HTML tag name</td>
+              <td><code>div</code></td>
+            </tr>
+            <tr>
+              <td><code>speed</code></td>
+              <td>number</td>
+              <td><code>0.5</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ CSS Scroll Timeline ============ -->
+    <section class="flow">
+      <h2>CSS Scroll Timeline</h2>
+      <p>
+        All scroll-linked effects in PandaMotion Lite run entirely in CSS using
+        <code>animation-timeline: view()</code> &mdash; zero JavaScript overhead.
+        The <code>data-scroll-css</code> attribute is always set by the
+        <code>&lt;ScrollEffect&gt;</code> component.
+      </p>
+      <p>
+        In browsers that don't support CSS Scroll Timeline, scroll effects
+        gracefully degrade &mdash; elements simply remain static. No JS fallback
+        is included to keep the system lightweight.
+      </p>
+
+      <h3>Browser Support</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Chrome</th>
+              <th>Firefox</th>
+              <th>Safari</th>
+              <th>Edge</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>IntersectionObserver</td>
+              <td>51+</td>
+              <td>55+</td>
+              <td>12.1+</td>
+              <td>15+</td>
+            </tr>
+            <tr>
+              <td>CSS <code>@keyframes</code></td>
+              <td>43+</td>
+              <td>16+</td>
+              <td>9+</td>
+              <td>12+</td>
+            </tr>
+            <tr>
+              <td>CSS custom properties</td>
+              <td>49+</td>
+              <td>31+</td>
+              <td>9.1+</td>
+              <td>15+</td>
+            </tr>
+            <tr>
+              <td><code>animation-timeline: view()</code></td>
+              <td>115+</td>
+              <td>110+</td>
+              <td>18+</td>
+              <td>115+</td>
+            </tr>
+            <tr>
+              <td>CSS <code>linear()</code> easing</td>
+              <td>113+</td>
+              <td>112+</td>
+              <td>17.2+</td>
+              <td>113+</td>
+            </tr>
+            <tr>
+              <td>3D transforms (flip/fold)</td>
+              <td>36+</td>
+              <td>16+</td>
+              <td>9+</td>
+              <td>12+</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ Accessibility ============ -->
+    <section class="flow">
+      <h2>Accessibility</h2>
+      <ul>
+        <li>
+          <strong>Reduced motion</strong> &mdash; When
+          <code>prefers-reduced-motion: reduce</code> is active, all animations
+          are disabled and elements are forced visible (both in CSS and JS).
+        </li>
+        <li>
+          <strong>Progressive enhancement</strong> &mdash; Elements are visible
+          by default. JavaScript applies the initial hidden state via the
+          <code>data-animate-ready</code> guard on <code>&lt;body&gt;</code>, so
+          content is always accessible without JS.
+        </li>
+      </ul>
+    </section>
+
+    <!-- ============ View Transitions ============ -->
+    <section class="flow">
+      <h2>Astro View Transitions</h2>
+      <p>
+        The animation system hooks into Astro's View Transitions lifecycle. When
+        active, animations re-initialise on <code>astro:page-load</code> and
+        clean up on <code>astro:before-swap</code> to prevent leaked observers.
+        Without View Transitions, these listeners are harmless no-ops.
+      </p>
+    </section>
+
+    <!-- ============ Architecture ============ -->
+    <section class="flow">
+      <h2>Architecture</h2>
+      <pre><code>src/
+  types/
+    animations.ts           TypeScript interfaces
+  scripts/animations/
+    constants.ts            Defaults, intensity presets, 36 easing presets
+    observer.ts             IntersectionObserver-based scroll-trigger
+    init.ts                 Entry point, lifecycle, reduced motion
+  styles/animations/
+    _animate-keyframes.css  @keyframes for all 7 types &times; directions
+    _animate-base.css       Hidden states, animation mapping, intensity
+    _scroll-timeline.css    Pure CSS scroll animations (view())
+    _reduced-motion.css     prefers-reduced-motion overrides
+  components/animation/
+    Animate.astro           Declarative &lt;Animate&gt; wrapper
+    ScrollEffect.astro      Declarative &lt;ScrollEffect&gt; wrapper</code></pre>
+    </section>
+
+    <!-- ============ How It Works ============ -->
+    <section class="flow">
+      <h2>How It Works</h2>
+
+      <h3>Entrance Animations</h3>
+      <ol>
+        <li>
+          On page load, <code>init.ts</code> checks
+          <code>prefers-reduced-motion</code>. If reduced, all elements are
+          forced visible and no observers are created.
+        </li>
+        <li>
+          <code>observer.ts</code> discovers all <code>[data-animate]</code>
+          elements, parses their data attributes into config objects, and sets
+          CSS custom properties (<code>--animate-duration</code>,
+          <code>--animate-delay</code>, <code>--animate-easing</code>,
+          <code>--animate-translate</code>, etc.) on each element.
+        </li>
+        <li>
+          An <code>IntersectionObserver</code> watches each element. When it
+          enters the viewport, the <code>.is-animating</code> class is added,
+          which triggers the CSS <code>@keyframes</code> animation.
+        </li>
+        <li>
+          For <code>repeat="every"</code> elements, the class is removed on
+          exit so the animation re-triggers on the next entry.
+        </li>
+      </ol>
+
+      <h3>Stagger Groups</h3>
+      <p>
+        Parents with <code>data-animate-stagger</code> are observed separately.
+        When the parent enters the viewport, all direct children with
+        <code>data-animate</code> receive <code>.is-animating</code>
+        simultaneously &mdash; but each child has an incrementing
+        <code>--animate-delay</code> set by the observer, creating the stagger
+        effect.
+      </p>
+
+      <h3>Scroll-Linked Effects</h3>
+      <p>
+        Scroll effects use pure CSS <code>animation-timeline: view()</code>.
+        The <code>--scroll-speed</code> custom property controls intensity.
+        No JavaScript is involved.
+      </p>
+    </section>
+
+    <!-- ============ Bundle Size ============ -->
+    <section class="flow">
+      <h2>Bundle Size</h2>
+      <p>
+        PandaMotion Lite has zero external dependencies. The entire animation
+        runtime &mdash; IntersectionObserver orchestration, attribute parsing,
+        easing map, and constants &mdash; compiles to a single JS chunk.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>JS bundle (gzipped)</td>
+              <td>~2.8 kB</td>
+            </tr>
+            <tr>
+              <td>CSS (4 files, before gzip)</td>
+              <td>~4 kB</td>
+            </tr>
+            <tr>
+              <td>External dependencies</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>Animation types</td>
+              <td>7</td>
+            </tr>
+            <tr>
+              <td>Scroll effects</td>
+              <td>6 (CSS-only)</td>
+            </tr>
+            <tr>
+              <td>Easing presets</td>
+              <td>36</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ Differences from Full ============ -->
+    <section class="flow">
+      <h2>Differences from Full PandaMotion</h2>
+      <p>
+        PandaMotion Lite is a zero-dependency alternative to the full
+        PandaMotion system (which uses the
+        <a href="https://motion.dev">Motion</a> library). The API is identical
+        &mdash; the same data attributes and components work in both versions.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Full</th>
+              <th>Lite</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Entrance trigger</td>
+              <td>Motion <code>inView()</code></td>
+              <td><code>IntersectionObserver</code></td>
+            </tr>
+            <tr>
+              <td>Entrance animation</td>
+              <td>Motion <code>animate()</code> (WAAPI)</td>
+              <td>CSS <code>@keyframes</code> + class toggle</td>
+            </tr>
+            <tr>
+              <td>Physics <code>spring</code></td>
+              <td>Motion <code>spring()</code> engine</td>
+              <td>Open Props <code>--ease-spring-3</code> (<code>linear()</code>)</td>
+            </tr>
+            <tr>
+              <td>Scroll effects (JS)</td>
+              <td>Motion <code>scroll()</code> fallback</td>
+              <td>Not included</td>
+            </tr>
+            <tr>
+              <td>Scroll effects (CSS)</td>
+              <td><code>animation-timeline: view()</code></td>
+              <td><code>animation-timeline: view()</code></td>
+            </tr>
+            <tr>
+              <td>JS bundle (gzip)</td>
+              <td>~26 kB</td>
+              <td>~2.8 kB</td>
+            </tr>
+            <tr>
+              <td>Dependencies</td>
+              <td>motion</td>
+              <td>None</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .docs {
+    padding-block-end: var(--space-xl, 3rem);
+  }
+
+  section {
+    padding-block: var(--space-l, 2rem);
+  }
+
+  pre {
+    background: var(--gray-9, #1a1a2e);
+    color: var(--gray-1, #eee);
+    padding: var(--space-s, 1rem);
+    border-radius: var(--radius-2, 0.5rem);
+    overflow-x: auto;
+    font-size: var(--step--1, 0.875rem);
+    line-height: 1.6;
+  }
+
+  code {
+    font-size: var(--step--1, 0.875rem);
+  }
+
+  :not(pre) > code {
+    background: var(--gray-2, #eee);
+    padding-inline: 0.3em;
+    border-radius: 0.2em;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--step--1, 0.875rem);
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: var(--space-3xs, 0.25rem) var(--space-xs, 0.5rem);
+    border-block-end: 1px solid var(--gray-3, #ddd);
+  }
+
+  th {
+    font-weight: 700;
+    background: var(--gray-1, #f5f5f5);
+  }
+
+  td:first-child,
+  td:last-child {
+    white-space: nowrap;
+  }
+
+  h3 {
+    margin-block-start: var(--space-m, 1.5rem);
+  }
+
+  ul,
+  ol {
+    padding-inline-start: 1.5em;
+  }
+
+  li {
+    margin-block-end: var(--space-3xs, 0.25rem);
+  }
+</style>

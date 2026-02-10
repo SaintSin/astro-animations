@@ -1,124 +1,372 @@
 ---
-// pages/index.astro
+// pages/index.astro — PandaMotion Lite Demo
+
 import { Image } from 'astro:assets';
-import image1 from '@images/panda-01.jpg';
+import Animate from '@components/animation/Animate.astro';
+import ScrollEffect from '@components/animation/ScrollEffect.astro';
+import panda from '@images/panda-01.jpg';
 import Layout from '@layouts/BaseLayout.astro';
 
 const meta = {
-  title: 'Welcome to Astro',
-  description: 'The metadescription',
+  title: 'PandaMotion Lite',
+  description:
+    'Lightweight CSS + IntersectionObserver animation system for Astro',
   imageOG: 'generic-social-1200x630.png',
-  altOG: 'Alt text for OG image',
+  altOG: 'PandaMotion Lite',
 };
 ---
 
 <Layout metaData={meta}>
   <main class="wrapper flow">
-    <h1>Start</h1>
-    <p>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero aut
-      magnam laborum assumenda, odio, accusamus vero nisi impedit culpa incidunt
-      deserunt, quo dolorem. Soluta accusamus natus, culpa iure nemo iste!
-    </p>
-    <p>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero aut
-      magnam laborum assumenda, odio, accusamus vero nisi impedit culpa incidunt
-      deserunt, quo dolorem. Soluta accusamus natus, culpa iure nemo iste!
+    <!-- ============ Hero ============ -->
+    <h1 data-animate="fade">PandaMotion Lite</h1>
+    <p
+      data-animate="slide"
+      data-animate-direction="up"
+      data-animate-delay="200"
+    >
+      A lightweight animation system using CSS <code>@keyframes</code>,
+      <code>IntersectionObserver</code>, and
+      <code>animation-timeline: view()</code>. Zero dependencies.
     </p>
 
-    <p>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero aut
-      magnam laborum assumenda, odio, accusamus vero nisi impedit culpa incidunt
-      deserunt, quo dolorem. Soluta accusamus natus, culpa iure nemo iste!
-    </p>
-    <ul>
-      <li>Modern CSS</li>
-      <li>CUBE CSS</li>
-      <li>OG Meta</li>
-      <li>Minimal Starter</li>
-      <li>Experimental Edition</li>
-      <li>Component library</li>
-    </ul>
-    <ol>
-      <li>Minimal Starter<br /></li>
-      <li>Experimental Edition</li>
-      <li>Components Edition</li>
-    </ol>
-    <h2>Image</h2>
-    <Image src={image1} alt="alt-text" quality={50} />
+    <!-- ============ 1. Animation Types ============ -->
+    <section class="flow">
+      <h2 data-animate="fade">The 7 Animation Types</h2>
 
-    <section class="grid flow" data-layout="50-50">
-      <div class="flow">
-        <h2>Grid 50-50</h2>
-        <h2>Second H2</h2>
-        <p>Number of columns is controlled by using attribute data-layout</p>
-        <p>Number of columns is controlled by using attribute data-layout</p>
+      <div class="grid" data-layout="thirds" data-animate-stagger="100">
+        <div class="demo-card" data-animate="fade">
+          <h3>Fade</h3>
+          <p>Simple opacity transition</p>
+        </div>
+        <div class="demo-card" data-animate="slide" data-animate-direction="up">
+          <h3>Slide Up</h3>
+          <p>Translates in from below</p>
+        </div>
+        <div class="demo-card" data-animate="bounce">
+          <h3>Bounce</h3>
+          <p>Bouncy entrance from below</p>
+        </div>
       </div>
-      <div class="flow">
-        <h2>Grid</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur fuga
-          libero labore impedit nam officia facere omnis ullam iure unde.
-          Veritatis quidem error similique eum modi dicta eaque blanditiis
-          voluptatem.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur fuga
-          libero labore impedit nam officia facere omnis ullam iure unde.
-          Veritatis quidem error similique eum modi dicta eaque blanditiis
-          voluptatem.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur fuga
-          libero labore impedit nam officia facere omnis ullam iure unde.
-          Veritatis quidem error similique eum modi dicta eaque blanditiis
-          voluptatem.
-        </p>
+
+      <div class="grid" data-layout="thirds" data-animate-stagger="100">
+        <div class="demo-card" data-animate="zoom">
+          <h3>Zoom</h3>
+          <p>Scales up into place</p>
+        </div>
+        <div class="demo-card" data-animate="flip" data-animate-direction="up">
+          <h3>Flip</h3>
+          <p>3D rotation on the X axis</p>
+        </div>
+        <div
+          class="demo-card"
+          data-animate="fold"
+          data-animate-direction="left"
+        >
+          <h3>Fold</h3>
+          <p>Unfolds from an edge</p>
+        </div>
       </div>
-    </section>
-    <section class="flow">
-      <h2>Grid Thirds</h2>
-      <div class="grid" data-layout="thirds">
-        <Image src={image1} alt="-" quality={50} />
-        <Image src={image1} alt="-" quality={50} />
-        <Image src={image1} alt="alt-text" quality={50} />
-      </div>
-      <div class="grid" data-layout="thirds">
-        <Image src={image1} alt="alt-text" quality={50} class="span-2" />
-        <Image src={image1} alt="alt-text" quality={50} />
+
+      <div class="demo-card" data-animate="roll">
+        <h3>Roll</h3>
+        <p>Combined translate + rotate</p>
       </div>
     </section>
+
+    <!-- ============ 2. Slide Directions ============ -->
     <section class="flow">
-      <h2>Responsive Images</h2>
-      <div class="flow resize-h">
-        <p>Fixed with nominated width</p>
-        <Image
-          src={image1}
-          alt="alt-text"
-          quality={50}
-          width={600}
-          layout="fixed"
-        />
-        <p>Constrained</p>
-        <Image
-          src={image1}
-          alt="alt-text"
-          quality={50}
-          width={700}
-          height={700}
-          layout="constrained"
-        />
-        <p>Full width</p>
-        <Image src={image1} alt="alt-text" quality={50} layout="full-width" />
+      <h2 data-animate="fade">Slide Directions</h2>
+
+      <div class="grid" data-layout="50-50">
+        <div
+          class="demo-card"
+          data-animate="slide"
+          data-animate-direction="left"
+        >
+          <h3>Slide Left</h3>
+        </div>
+        <div
+          class="demo-card"
+          data-animate="slide"
+          data-animate-direction="right"
+        >
+          <h3>Slide Right</h3>
+        </div>
+      </div>
+      <div class="grid" data-layout="50-50">
+        <div class="demo-card" data-animate="slide" data-animate-direction="up">
+          <h3>Slide Up</h3>
+        </div>
+        <div
+          class="demo-card"
+          data-animate="slide"
+          data-animate-direction="down"
+        >
+          <h3>Slide Down</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 3. Intensity Levels ============ -->
+    <section class="flow">
+      <h2 data-animate="fade">Intensity Levels</h2>
+
+      <div class="grid" data-layout="thirds" data-animate-stagger="100">
+        <div
+          class="demo-card"
+          data-animate="slide"
+          data-animate-intensity="subtle"
+        >
+          <h3>Subtle</h3>
+          <p>5vh translate</p>
+        </div>
+        <div
+          class="demo-card"
+          data-animate="slide"
+          data-animate-intensity="normal"
+        >
+          <h3>Normal</h3>
+          <p>15vh translate</p>
+        </div>
+        <div
+          class="demo-card"
+          data-animate="slide"
+          data-animate-intensity="strong"
+        >
+          <h3>Strong</h3>
+          <p>30vh translate</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 4. Easing Functions ============ -->
+    <section class="flow">
+      <h2 data-animate="fade">Easing Functions</h2>
+      <p data-animate="fade">
+        36 easings from <a href="https://open-props.style">Open Props</a>
+        — cubic-bezier, spring, bounce, and elastic curves.
+      </p>
+
+      <div class="grid" data-layout="thirds" data-animate-stagger="100">
+        <div
+          class="demo-card"
+          data-animate="slide"
+          data-animate-easing="ease-out-3"
+        >
+          <h3>ease-out-3</h3>
+          <p>Default — smooth deceleration</p>
+        </div>
+        <div
+          class="demo-card"
+          data-animate="slide"
+          data-animate-easing="spring-3"
+        >
+          <h3>spring-3</h3>
+          <p>Open Props linear() spring</p>
+        </div>
+        <div
+          class="demo-card"
+          data-animate="slide"
+          data-animate-easing="spring"
+        >
+          <h3>spring</h3>
+          <p>Alias for spring-3</p>
+        </div>
+      </div>
+
+      <div class="grid" data-layout="thirds" data-animate-stagger="100">
+        <div
+          class="demo-card"
+          data-animate="slide"
+          data-animate-easing="bounce-3"
+        >
+          <h3>bounce-3</h3>
+          <p>Open Props bounce curve</p>
+        </div>
+        <div
+          class="demo-card"
+          data-animate="slide"
+          data-animate-easing="elastic-out-3"
+        >
+          <h3>elastic-out-3</h3>
+          <p>Overshooting elastic</p>
+        </div>
+        <div
+          class="demo-card"
+          data-animate="slide"
+          data-animate-easing="ease-in-out-5"
+        >
+          <h3>ease-in-out-5</h3>
+          <p>Dramatic in-out</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 5. Stagger ============ -->
+    <section class="flow">
+      <h2 data-animate="fade">Staggered Animations</h2>
+      <p data-animate="fade">
+        Parent sets the stagger interval; children animate sequentially.
+      </p>
+
+      <div
+        class="grid"
+        data-layout="thirds"
+        data-animate-stagger="150"
+        data-animate-stagger-from="first"
+      >
+        <div class="demo-card" data-animate="slide" data-animate-direction="up">
+          <h3>1</h3>
+        </div>
+        <div class="demo-card" data-animate="slide" data-animate-direction="up">
+          <h3>2</h3>
+        </div>
+        <div class="demo-card" data-animate="slide" data-animate-direction="up">
+          <h3>3</h3>
+        </div>
+        <div class="demo-card" data-animate="slide" data-animate-direction="up">
+          <h3>4</h3>
+        </div>
+        <div class="demo-card" data-animate="slide" data-animate-direction="up">
+          <h3>5</h3>
+        </div>
+        <div class="demo-card" data-animate="slide" data-animate-direction="up">
+          <h3>6</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 6. Component API ============ -->
+    <section class="flow">
+      <h2 data-animate="fade">&lt;Animate&gt; Component</h2>
+      <p data-animate="fade">
+        Declarative alternative to data attributes — same result, nicer DX.
+      </p>
+
+      <Animate type="slide" direction="left" easing="spring" duration={800}>
+        <div class="demo-card">
+          <h3>Slide left, spring easing, 800ms</h3>
+          <p>Using &lt;Animate&gt; wrapper</p>
+        </div>
+      </Animate>
+
+      <Animate type="zoom" intensity="strong" as="article" class="demo-card">
+        <h3>Zoom (strong), rendered as &lt;article&gt;</h3>
+        <p>Custom tag via the <code>as</code> prop</p>
+      </Animate>
+    </section>
+
+    <!-- ============ 7. Repeat ============ -->
+    <section class="flow">
+      <h2 data-animate="fade">Repeat: Every Scroll</h2>
+      <p data-animate="fade">
+        Re-animates every time the element enters the viewport. Scroll past and
+        back to see.
+      </p>
+
+      <div
+        class="demo-card"
+        data-animate="slide"
+        data-animate-direction="up"
+        data-animate-repeat="every"
+      >
+        <h3>I re-animate every time!</h3>
+      </div>
+    </section>
+
+    <!-- ============ 8. CSS Scroll Timeline ============ -->
+    <section class="flow">
+      <h2 data-animate="fade">CSS Scroll Timeline (Zero JS)</h2>
+      <p data-animate="fade">
+        Native <code>animation-timeline: view()</code> &mdash; no JavaScript involved.
+      </p>
+
+      <ScrollEffect type="parallax" speed={0.5}>
+        <div class="demo-card">
+          <h3>CSS Parallax</h3>
+          <p>Pure CSS, zero JS overhead</p>
+        </div>
+      </ScrollEffect>
+
+      <ScrollEffect type="fade">
+        <div class="demo-card">
+          <h3>CSS Fade on Scroll</h3>
+        </div>
+      </ScrollEffect>
+
+      <ScrollEffect type="scale">
+        <div class="demo-card">
+          <h3>CSS Scale on Scroll</h3>
+        </div>
+      </ScrollEffect>
+
+      <ScrollEffect type="blur">
+        <div class="demo-card">
+          <h3>CSS Blur on Scroll</h3>
+        </div>
+      </ScrollEffect>
+
+      <ScrollEffect type="horizontal" speed={0.4}>
+        <div class="demo-card">
+          <h3>CSS Horizontal</h3>
+          <p>Slides horizontally with scroll</p>
+        </div>
+      </ScrollEffect>
+    </section>
+
+    <!-- ============ 9. Image Animations ============ -->
+    <section class="flow">
+      <h2 data-animate="fade">Image Animations</h2>
+
+      <div class="grid" data-layout="thirds" data-animate-stagger="150">
+        <div data-animate="zoom">
+          <Image src={panda} alt="Panda" quality={50} />
+        </div>
+        <div data-animate="slide" data-animate-direction="up">
+          <Image src={panda} alt="Panda" quality={50} />
+        </div>
+        <div data-animate="flip" data-animate-direction="right">
+          <Image src={panda} alt="Panda" quality={50} />
+        </div>
       </div>
     </section>
   </main>
 </Layout>
+
 <style>
-  .resize-h {
-    border: 1px solid var(--color-text-subtle);
-    padding: 1rem;
-    overflow: auto;
-    resize: horizontal;
+  .demo-card {
+    background: var(--color-surface);
+    border: 1px solid var(--gray-3, #ddd);
+    border-radius: var(--radius-2, 0.5rem);
+    padding: var(--space-m, 1.5rem);
+    min-height: 8rem;
+    display: grid;
+    place-content: center;
+    text-align: center;
+  }
+
+  .demo-card h3 {
+    margin-block-end: var(--space-3xs, 0.25rem);
+  }
+
+  .demo-card p {
+    font-size: var(--step--1, 0.875rem);
+    opacity: 0.7;
+  }
+
+  .demo-card code {
+    font-size: var(--step--1, 0.875rem);
+    background: var(--gray-2, #eee);
+    padding-inline: 0.25em;
+    border-radius: 0.2em;
+  }
+
+  section {
+    padding-block: var(--space-l, 2rem);
+  }
+
+  img {
+    border-radius: var(--radius-2, 0.5rem);
   }
 </style>

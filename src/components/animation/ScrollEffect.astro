@@ -1,0 +1,43 @@
+---
+// @components/animation/ScrollEffect.astro
+//
+// Declarative wrapper for CSS scroll-linked effects.
+// Renders an element with data-scroll-* attributes.
+// Always uses CSS Scroll Timeline (no JS fallback in Lite).
+
+import type { ScrollEffectType } from '../../types/animations';
+
+interface Props {
+  /** Effect type */
+  type: ScrollEffectType;
+  /** HTML tag to render (default: div) */
+  as?: keyof HTMLElementTagNameMap;
+  /** Speed/intensity multiplier */
+  speed?: number;
+  /** Additional CSS class */
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { type, as: Tag = 'div', speed, class: className, ...rest } = Astro.props;
+
+const dataAttrs: Record<string, string | undefined> = {
+  'data-scroll-effect': type,
+  'data-scroll-css': '',
+};
+
+if (speed !== undefined) {
+  dataAttrs['data-scroll-speed'] = speed.toString();
+}
+
+const cleanAttrs = Object.fromEntries(
+  Object.entries(dataAttrs).filter(([, v]) => v !== undefined),
+);
+
+// Pass speed as a CSS custom property for the scroll timeline keyframes
+const inlineStyle = speed ? `--scroll-speed: ${speed * 100}px` : undefined;
+---
+
+<Tag class={className} style={inlineStyle} {...cleanAttrs} {...rest}>
+  <slot />
+</Tag>

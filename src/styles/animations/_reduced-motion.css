@@ -1,0 +1,19 @@
+/* styles/animations/_reduced-motion.css
+ *
+ * Reduced motion: force everything visible, kill all animation.
+ */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  [data-scroll-effect] {
+    transform: none !important;
+    filter: none !important;
+    animation: none !important;
+  }
+}

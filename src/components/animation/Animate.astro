@@ -1,0 +1,76 @@
+---
+// @components/animation/Animate.astro
+//
+// Declarative wrapper that renders an element with the correct
+// data-animate-* attributes. Alternative to adding them manually.
+
+import type {
+  AnimateDirection,
+  AnimateEasing,
+  AnimateIntensity,
+  AnimateRepeat,
+  AnimationType,
+} from '../../types/animations';
+
+interface Props {
+  /** Animation type */
+  type: AnimationType;
+  /** HTML tag to render (default: div) */
+  as?: keyof HTMLElementTagNameMap;
+  /** Direction for directional animations */
+  direction?: AnimateDirection;
+  /** Duration in milliseconds */
+  duration?: number;
+  /** Delay in milliseconds */
+  delay?: number;
+  /** Easing function name */
+  easing?: AnimateEasing;
+  /** Transform intensity */
+  intensity?: AnimateIntensity;
+  /** Starting opacity (0–1) */
+  opacity?: number;
+  /** Repeat behaviour */
+  repeat?: AnimateRepeat;
+  /** Intersection threshold (0–1) */
+  threshold?: number;
+  /** Additional CSS class */
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  type,
+  as: Tag = 'div',
+  direction,
+  duration,
+  delay,
+  easing,
+  intensity,
+  opacity,
+  repeat,
+  threshold,
+  class: className,
+  ...rest
+} = Astro.props;
+
+// Only include attributes that were explicitly provided
+const dataAttrs: Record<string, string | undefined> = {
+  'data-animate': type,
+  'data-animate-direction': direction,
+  'data-animate-duration': duration?.toString(),
+  'data-animate-delay': delay?.toString(),
+  'data-animate-easing': easing,
+  'data-animate-intensity': intensity?.toString(),
+  'data-animate-opacity': opacity?.toString(),
+  'data-animate-repeat': repeat,
+  'data-animate-threshold': threshold?.toString(),
+};
+
+const cleanAttrs = Object.fromEntries(
+  Object.entries(dataAttrs).filter(([, v]) => v !== undefined),
+);
+---
+
+<Tag class={className} {...cleanAttrs} {...rest}>
+  <slot />
+</Tag>
