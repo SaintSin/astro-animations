@@ -1,0 +1,12 @@
+@import '_reset.scss' layer(components);
+
+@import '_tokens.scss' layer(components);
+@import '_layout.scss' layer(components);
+
+@import 'compositions/flow.css' layer(components);
+@import 'compositions/wrapper.css' layer(components);
+@import 'compositions/grid.css' layer(components);
+
+.content {
+  height: 100%;
+}
