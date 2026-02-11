@@ -120,7 +120,7 @@ The [Astro integrations library](https://astro.build/integrations/) automaticall
 indexes packages with Astro-related keywords weekly. No action needed beyond
 ensuring the keywords are correct (Step 2).
 
-- [ ] Confirm `astro-component` is in `keywords`
+- [x] Confirm `astro-component` is in `keywords`
 - [ ] Wait for the weekly index to pick it up
 
 ---
@@ -129,17 +129,53 @@ ensuring the keywords are correct (Step 2).
 
 Not required to publish, but worth adding once the package is live and stable.
 
-### Unit tests — JS logic (Vitest)
+### 8a — Extract bundled script into separate modules
 
-Vitest is the natural fit: fast, TypeScript-native, already used in the Astro
-ecosystem, and works with pnpm workspaces out of the box.
+All JS is currently inlined in `astro-animations.astro`. Vite processes
+`<script>` tags and handles imports, so the logic can be split into `.ts` files
+and imported — the output bundle stays identical.
 
-Good candidates to unit test:
+Proposed structure:
 
-- `parseAnimateConfig` — valid/invalid types, directions, intensity, easing fallbacks
-- `resolveIntensity` — numeric clamping, named preset resolution
-- `parseStaggerConfig` — stagger ordering (first/last/center)
-- `applyAnimationProperties` — correct CSS custom property values written to elements
+```text
+packages/astro-animations/src/lib/
+├── constants.ts   # DEFAULTS, INTENSITY_PRESETS, EASING_MAP, resolveIntensity, intensityToRotate
+├── parse.ts       # parseAnimateConfig, parseStaggerConfig
+├── apply.ts       # applyAnimationProperties, clearAnimationProperties, promoteElement
+└── observer.ts    # getOrCreateObserver, setupStaggerGroup, initInViewAnimations, destroyInViewAnimations
+```
+
+`astro-animations.astro` becomes:
+
+```astro
+<script>
+  import { initAnimations, destroyAnimations } from './lib/observer.ts';
+
+  document.addEventListener('astro:page-load', initAnimations);
+  document.addEventListener('astro:before-swap', destroyAnimations);
+  initAnimations();
+</script>
+```
+
+- [ ] Create `packages/astro-animations/src/lib/` directory
+- [ ] Split bundled script into the four modules above
+- [ ] Update `astro-animations.astro` `<script>` to import from lib
+- [ ] Verify `pnpm dev` and `pnpm build` still work
+
+### 8b — Unit tests (Vitest)
+
+`constants.ts` and `parse.ts` are pure functions with no DOM dependency —
+ideal for Vitest without a browser or jsdom.
+
+Good unit test candidates:
+
+- `resolveIntensity` — numeric clamping (0–1), named preset lookup, unknown → fallback
+- `intensityToRotate` — named presets return correct degrees, numeric scaling
+- `parseAnimateConfig` — valid/invalid types return null, direction fallback,
+  duration/delay parsing, easing validation, intensity variants, repeat logic
+- `parseStaggerConfig` — absent attribute returns null, from values, duration fallback
+
+`apply.ts` and `observer.ts` require a DOM — use jsdom (built into Vitest).
 
 Setup:
 
@@ -151,22 +187,51 @@ Add to `packages/astro-animations/package.json`:
 
 ```json
 "scripts": {
-  "test": "vitest run"
+  "test": "vitest run",
+  "test:watch": "vitest"
 }
 ```
 
 - [ ] Install Vitest in the package workspace
-- [ ] Extract testable logic from the bundled script back into separate modules
-- [ ] Write unit tests for config parsing and property application
+- [ ] Write unit tests for `resolveIntensity` and `intensityToRotate`
+- [ ] Write unit tests for `parseAnimateConfig`
+- [ ] Write unit tests for `parseStaggerConfig`
+- [ ] Write DOM tests for `applyAnimationProperties` (jsdom)
 
-### End-to-end tests — browser behaviour (Playwright)
+### 8c — End-to-end tests (Playwright)
 
-Use the existing demo site as the test fixture. Playwright can scroll the page
-and assert that `.is-animating` classes are applied and elements become visible.
+Use the demo site as the test fixture. Playwright can scroll the page and
+assert that `is-animating` classes are applied and CSS properties are set.
+
+Good e2e test candidates:
+
+- Each animation type triggers `.is-animating` on viewport entry
+- `repeat="every"` re-animates on re-entry
+- `data-stagger` delays children sequentially
+- `prefers-reduced-motion` disables all animations (emulate via Playwright)
+- ScrollEffect elements have `animation-timeline` applied (CSS-only, check computed styles)
+
+Setup:
+
+```bash
+pnpm add -D @playwright/test          # at root
+pnpm exec playwright install chromium # minimal browser install
+```
+
+Add to root `package.json`:
+
+```json
+"scripts": {
+  "test:e2e": "playwright test"
+}
+```
 
 - [ ] Install Playwright at the root
-- [ ] Write tests against the demo site for each animation type
-- [ ] Add a `test:e2e` script to the root `package.json`
+- [ ] Add fixture pages to demo site (one element per animation type)
+- [ ] Write scroll-trigger test for each animation type
+- [ ] Write reduced-motion test
+- [ ] Write stagger ordering test
+- [ ] Add a `test:e2e` script to root `package.json`
 
 ---
 
