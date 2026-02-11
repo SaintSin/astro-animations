@@ -23,8 +23,8 @@ Then verify git sees the right files before committing:
 git status
 ```
 
-- [ ] Delete `packages/astro-animations/.git/`
-- [ ] Run `git status` and confirm only source files appear
+- [x] Delete `packages/astro-animations/.git/`
+- [x] Run `git status` and confirm only source files appear
 - [ ] Commit the package source to the root repo
 
 ---
@@ -75,10 +75,10 @@ Fields to add/update:
 The current `src/MyComponent.astro` is a template placeholder. The actual
 animation components need to live in `packages/astro-animations/src/`.
 
-- [ ] Identify which components from `src/` should be part of the package
-- [ ] Copy/move those components into `packages/astro-animations/src/`
-- [ ] Update `packages/astro-animations/index.ts` to export them correctly
-- [ ] Use named exports so users can import selectively
+- [x] Identify which components from `src/` should be part of the package
+- [x] Copy/move those components into `packages/astro-animations/src/`
+- [x] Update `packages/astro-animations/index.ts` to export them correctly
+- [x] Use named exports so users can import selectively
 
 ---
 
@@ -88,9 +88,9 @@ The existing root Astro project can serve as the demo. It should import from
 the package name (e.g. `astro-animations`) rather than a relative path, so
 the test mirrors real-world usage.
 
-- [ ] Confirm the root project imports from `astro-animations` (not `../../packages/...`)
+- [x] Confirm the root project imports from `astro-animations` (not `../../packages/...`)
 - [ ] Add fixture pages that test each exported component
-- [ ] Verify `astro dev` and `astro build` work correctly end-to-end
+- [x] Verify `astro dev` and `astro build` work correctly end-to-end
 
 ---
 
@@ -98,18 +98,19 @@ the test mirrors real-world usage.
 
 Required before publishing.
 
-- [ ] Create an account at [npmjs.com](https://www.npmjs.com) if you don't have one
-- [ ] Run `npm login` in the terminal and authenticate
-- [ ] If using a scoped package name, decide whether it will be public or private
+- [x] Create an account at [npmjs.com](https://www.npmjs.com) if you don't have one
+- [x] Run `npm login` in the terminal and authenticate
+- [x] If using a scoped package name, decide whether it will be public or private
 
 ---
 
 ## Step 6 — Publish
 
-- [ ] Do a dry run first: `npm publish --dry-run` from `packages/astro-animations/`
-- [ ] Review the list of files that will be published
-- [ ] Publish: `npm publish --access public` (required for scoped public packages)
-- [ ] Verify the package appears at `https://www.npmjs.com/package/<your-package-name>`
+- [x] Do a dry run first: `npm publish --dry-run` from `packages/astro-animations/`
+- [x] Review the list of files that will be published
+- [x] Publish: `npm publish` from `packages/astro-animations/`
+- [x] Verify the package appears at [npmjs.com/package/astro-animations](https://www.npmjs.com/package/astro-animations)
+- [x] Installed and confirmed working in a separate project
 
 ---
 
