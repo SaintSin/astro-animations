@@ -418,12 +418,12 @@
    * _scroll-timeline.css
    *
    * Pure CSS scroll-linked animations using animation-timeline: view().
-   * Zero JS overhead — only targets elements with data-scroll-css.
+   * Zero JS overhead — targets all elements with data-scroll-effect.
    * Uses --scroll-speed custom property for configurable intensity.
    * ============================================================ */
 
   /* -- Parallax -------------------------------------------------------------- */
-  [data-scroll-effect="parallax"][data-scroll-css] {
+  [data-scroll-effect="parallax"] {
     animation: scroll-parallax linear both;
     animation-timeline: view();
     animation-range: entry 0% exit 100%;
@@ -439,7 +439,7 @@
   }
 
   /* -- Fade ------------------------------------------------------------------ */
-  [data-scroll-effect="fade"][data-scroll-css] {
+  [data-scroll-effect="fade"] {
     animation: scroll-fade linear both;
     animation-timeline: view();
     animation-range: entry 0% cover 40%;
@@ -455,7 +455,7 @@
   }
 
   /* -- Scale ----------------------------------------------------------------- */
-  [data-scroll-effect="scale"][data-scroll-css] {
+  [data-scroll-effect="scale"] {
     animation: scroll-scale linear both;
     animation-timeline: view();
     animation-range: entry 0% cover 50%;
@@ -471,7 +471,7 @@
   }
 
   /* -- Rotate ---------------------------------------------------------------- */
-  [data-scroll-effect="rotate"][data-scroll-css] {
+  [data-scroll-effect="rotate"] {
     animation: scroll-rotate linear both;
     animation-timeline: view();
     animation-range: entry 0% exit 100%;
@@ -487,7 +487,7 @@
   }
 
   /* -- Blur ------------------------------------------------------------------ */
-  [data-scroll-effect="blur"][data-scroll-css] {
+  [data-scroll-effect="blur"] {
     animation: scroll-blur linear both;
     animation-timeline: view();
     animation-range: entry 0% cover 50%;
@@ -503,7 +503,7 @@
   }
 
   /* -- Horizontal ------------------------------------------------------------ */
-  [data-scroll-effect="horizontal"][data-scroll-css] {
+  [data-scroll-effect="horizontal"] {
     animation: scroll-horizontal linear both;
     animation-timeline: view();
     animation-range: entry 0% exit 100%;

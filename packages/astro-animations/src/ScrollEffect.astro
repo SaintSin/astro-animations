@@ -21,7 +21,6 @@ const { type, as: Tag = 'div', speed, class: className, ...rest } = Astro.props;
 
 const dataAttrs: Record<string, string | undefined> = {
   'data-scroll-effect': type,
-  'data-scroll-css': '',
 };
 
 if (speed !== undefined) {

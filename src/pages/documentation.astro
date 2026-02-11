@@ -30,8 +30,8 @@ const meta = {
           <pre><code>npm install astro-animations</code></pre>
         </li>
         <li>
-          Add <code>&lt;AstroAnimations /&gt;</code> to your base layout — it
-          injects all required CSS and the runtime script:
+          Add <code>&lt;AstroAnimations /&gt;</code> to your base layout — it injects
+          all required CSS and the runtime script:
           <pre><code>&#45;&#45;&#45;
 import &#123; AstroAnimations &#125; from 'astro-animations';
 &#45;&#45;&#45;
@@ -46,12 +46,12 @@ import &#123; AstroAnimations &#125; from 'astro-animations';
 &lt;/html&gt;</code></pre>
         </li>
         <li>
-          Add <code>data-animate</code> to any element — it will animate when
-          scrolled into view:
+          Add <code>data-animate</code> to any element — it will animate when scrolled
+          into view:
           <pre><code>&lt;h2 data-animate="fade"&gt;Hello&lt;/h2&gt;
 
-&lt;div data-animate="slide" data-animate-direction="left"&gt;
-  Slides in from the left
+&lt;div data-animate="slide" data-animate-direction="left" easing="spring"&gt;
+    &lt;p&gt;Slides in from the left with spring easing&lt;/p&gt;
 &lt;/div&gt;</code></pre>
         </li>
         <li>
@@ -61,7 +61,7 @@ import &#123; Animate &#125; from 'astro-animations';
 &#45;&#45;&#45;
 
 &lt;Animate type="slide" direction="left" easing="spring"&gt;
-  &lt;div&gt;Slides in from the left with spring easing&lt;/div&gt;
+  &lt;p&gt;Slides in from the left with spring easing&lt;/p&gt;
 &lt;/Animate&gt;</code></pre>
         </li>
       </ol>
@@ -269,11 +269,6 @@ import &#123; Animate &#125; from 'astro-animations';
               <td><code>data-scroll-speed</code></td>
               <td>number (e.g. <code>0.5</code>)</td>
               <td><code>0.5</code></td>
-            </tr>
-            <tr>
-              <td><code>data-scroll-css</code></td>
-              <td>presence = use CSS Scroll Timeline</td>
-              <td>Always set in Lite</td>
             </tr>
           </tbody>
         </table>
@@ -528,8 +523,8 @@ import &#123; Animate &#125; from 'astro-animations';
 
       <h3>&lt;ScrollEffect&gt;</h3>
       <p>
-        Declarative wrapper for CSS scroll-linked effects. In PandaMotion Lite,
-        all scroll effects use CSS Scroll Timeline (no JS fallback).
+        Declarative wrapper for CSS scroll-linked effects. In PandaMotion, all
+        scroll effects use CSS Scroll Timeline (no JS fallback).
       </p>
       <pre><code>&#45;&#45;&#45;
 import &#123; ScrollEffect &#125; from 'astro-animations';
@@ -581,10 +576,8 @@ import &#123; ScrollEffect &#125; from 'astro-animations';
     <section class="flow">
       <h2>CSS Scroll Timeline</h2>
       <p>
-        All scroll-linked effects in PandaMotion Lite run entirely in CSS using
+        All scroll-linked effects run entirely in CSS using
         <code>animation-timeline: view()</code> &mdash; zero JavaScript overhead.
-        The <code>data-scroll-css</code> attribute is always set by the
-        <code>&lt;ScrollEffect&gt;</code> component.
       </p>
       <p>
         In browsers that don't support CSS Scroll Timeline, scroll effects

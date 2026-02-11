@@ -130,7 +130,7 @@ test('prefers-reduced-motion: in-viewport elements get opacity:1 directly', asyn
 // CSS Scroll Timeline (ScrollEffect)
 // ---------------------------------------------------------------------------
 
-test('ScrollEffect elements have data-scroll-css attribute', async ({
+test('ScrollEffect elements have data-scroll-effect attribute', async ({
   page,
 }) => {
   await page.goto('/');
@@ -138,6 +138,6 @@ test('ScrollEffect elements have data-scroll-css attribute', async ({
   const count = await effects.count();
   expect(count).toBeGreaterThan(0);
   for (let i = 0; i < count; i++) {
-    await expect(effects.nth(i)).toHaveAttribute('data-scroll-css');
+    await expect(effects.nth(i)).toHaveAttribute('data-scroll-effect');
   }
 });
