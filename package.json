@@ -1,5 +1,5 @@
 {
-  "name": "astro-animations",
+  "name": "astro-animations-demo",
   "type": "module",
   "version": "0.0.1",
   "description": "A lightbox/gallery component for Astro, using content collections, optimised images and modern CSS",
@@ -26,6 +26,7 @@
     "test": "astro check && biome check src/components src/layouts src/pages src/types *.mjs *.json"
   },
   "dependencies": {
+    "astro-animations": "workspace:*",
     "@astrojs/check": "^0.9.6",
     "@astrojs/sitemap": "^3.7.0",
     "@felixicaza/astro-capo": "^1.0.1",
@@ -33,7 +34,6 @@
     "astro": "^5.17.1",
     "astro-icon": "^1.1.5",
     "open-props": "^1.7.23",
-    "sass": "^1.97.3",
     "sharp": "^0.34.5",
     "typescript": "^5.9.3"
   },

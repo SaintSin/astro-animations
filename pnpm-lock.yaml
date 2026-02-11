@@ -23,15 +23,15 @@ importers:
       astro:
         specifier: ^5.17.1
         version: 5.17.1(@types/node@25.2.2)(rollup@4.57.1)(sass@1.97.3)(typescript@5.9.3)(yaml@2.8.2)
+      astro-animations:
+        specifier: workspace:*
+        version: link:packages/astro-animations
       astro-icon:
         specifier: ^1.1.5
         version: 1.1.5
       open-props:
         specifier: ^1.7.23
         version: 1.7.23
-      sass:
-        specifier: ^1.97.3
-        version: 1.97.3
       sharp:
         specifier: ^0.34.5
         version: 0.34.5
@@ -3693,7 +3693,8 @@ snapshots:
     dependencies:
       safer-buffer: 2.1.2
 
-  immutable@5.1.4: {}
+  immutable@5.1.4:
+    optional: true
 
   import-meta-resolve@4.2.0: {}
 
@@ -4491,6 +4492,7 @@ snapshots:
       source-map-js: 1.2.1
     optionalDependencies:
       '@parcel/watcher': 2.5.6
+    optional: true
 
   sax@1.4.4: {}
 

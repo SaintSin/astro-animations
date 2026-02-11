@@ -64,9 +64,9 @@ Fields to add/update:
 - `homepage` — link to docs or demo
 - `keywords` — must include `astro-component` for Astro integrations library discoverability
 
-- [ ] Decide on the package name (scoped or unscoped)
-- [ ] Update all metadata fields
-- [ ] Verify `exports` and `files` are correct
+- [x] Decide on the package name (unscoped: `astro-animations`)
+- [x] Update all metadata fields
+- [x] Verify `exports` and `files` are correct
 
 ---
 
@@ -124,7 +124,53 @@ ensuring the keywords are correct (Step 2).
 
 ---
 
+## Step 8 — Add tests (post-publish)
+
+Not required to publish, but worth adding once the package is live and stable.
+
+### Unit tests — JS logic (Vitest)
+
+Vitest is the natural fit: fast, TypeScript-native, already used in the Astro
+ecosystem, and works with pnpm workspaces out of the box.
+
+Good candidates to unit test:
+
+- `parseAnimateConfig` — valid/invalid types, directions, intensity, easing fallbacks
+- `resolveIntensity` — numeric clamping, named preset resolution
+- `parseStaggerConfig` — stagger ordering (first/last/center)
+- `applyAnimationProperties` — correct CSS custom property values written to elements
+
+Setup:
+
+```bash
+pnpm add -D vitest --filter astro-animations
+```
+
+Add to `packages/astro-animations/package.json`:
+
+```json
+"scripts": {
+  "test": "vitest run"
+}
+```
+
+- [ ] Install Vitest in the package workspace
+- [ ] Extract testable logic from the bundled script back into separate modules
+- [ ] Write unit tests for config parsing and property application
+
+### End-to-end tests — browser behaviour (Playwright)
+
+Use the existing demo site as the test fixture. Playwright can scroll the page
+and assert that `.is-animating` classes are applied and elements become visible.
+
+- [ ] Install Playwright at the root
+- [ ] Write tests against the demo site for each animation type
+- [ ] Add a `test:e2e` script to the root `package.json`
+
+---
+
 ## Notes
 
 - Astro natively supports `.astro`, `.ts`, `.jsx`, and `.css` — no build step needed before publishing.
 - The nested `.git` issue is covered in Step 0 — remove it before doing anything else.
+- Publishing with pnpm: use `pnpm publish` from `packages/astro-animations/` rather than `npm publish`.

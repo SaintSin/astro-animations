@@ -2,15 +2,30 @@
   "name": "astro-animations",
   "version": "0.0.1",
   "type": "module",
+  "description": "Lightweight animation components for Astro",
+  "author": {
+    "name": "StJohn Mackay",
+    "url": "https://github.com/SaintSin"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SaintSin/astro-animations"
+  },
+  "homepage": "https://github.com/SaintSin/astro-animations",
+  "keywords": [
+    "astro",
+    "astro-component",
+    "animation",
+    "lightweight",
+    "withastro"
+  ],
   "exports": {
     ".": "./index.ts"
   },
   "files": [
     "src",
     "index.ts"
-  ],
-  "keywords": [
-    "astro-component"
   ],
   "scripts": {},
   "devDependencies": {
