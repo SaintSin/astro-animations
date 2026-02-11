@@ -1,5 +1,8 @@
 # astro-animations — development repo
 
+[![npm](https://img.shields.io/npm/v/astro-animations)](https://www.npmjs.com/package/astro-animations)
+
+
 Monorepo for the [`astro-animations`](https://www.npmjs.com/package/astro-animations) npm package.
 
 The package lives in `packages/astro-animations/`. The root Astro project is the demo site that imports and showcases it.
