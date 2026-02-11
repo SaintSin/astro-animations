@@ -29,6 +29,26 @@
 
 ---
 
+## 2026-02-11 — Package cleanup (0.0.3)
+
+### Removed
+
+- **`data-scroll-css` attribute** — redundant since all scroll effects are CSS-only; `[data-scroll-effect]` selector is now sufficient. Users setting `data-scroll-css` manually in markup should remove it.
+
+### Changed
+
+- CSS scroll timeline selectors simplified from `[data-scroll-effect="…"][data-scroll-css]` to `[data-scroll-effect="…"]`
+- `ScrollEffect.astro` no longer sets the `data-scroll-css` attribute
+
+### Fixed
+
+- `documentation.astro` — `---` frontmatter delimiters inside `<pre><code>` blocks escaped as `&#45;&#45;&#45;` to prevent Astro's parser treating them as frontmatter boundaries (caused build-time `ReferenceError`)
+- `documentation.astro` — Quick Start and Setup merged into a single numbered section
+- `documentation.astro` — `class` prop added to `<Animate>` props table
+- `documentation.astro` — import paths updated from local aliases to `astro-animations` package
+
+---
+
 ## 2025-02-10 — PandaMotion Lite: Initial Implementation
 
 Implemented a lightweight, zero-dependency animation system for Astro based on the full PandaMotion system (AstroAnimations). Replaces the Motion library with CSS `@keyframes`, `IntersectionObserver`, and CSS Scroll Timeline.

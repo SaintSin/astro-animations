@@ -140,7 +140,7 @@ import { ScrollEffect } from 'astro-animations';
 | `blur` | Blur tied to scroll position |
 | `horizontal` | Horizontal translation on scroll |
 
-> **Note:** Scroll effects require browser support for the CSS Scroll Timeline API. They have no JavaScript fallback in this Lite version. Unsupported browsers will simply see the element without the effect.
+> **Note:** Scroll effects require browser support for the CSS Scroll Timeline API. They have no JavaScript fallback. Unsupported browsers will simply see the element without the effect.
 
 ---
 
