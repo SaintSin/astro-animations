@@ -4,8 +4,8 @@
 import Layout from '@layouts/BaseLayout.astro';
 
 const meta = {
-  title: 'Documentation — PandaMotion Lite',
-  description: 'API reference for the PandaMotion Lite animation system',
+  title: 'Documentation — PandaMotion ',
+  description: 'API reference for the PandaMotion  animation system',
   imageOG: 'generic-social-1200x630.png',
   altOG: 'Documentation',
 };
@@ -24,56 +24,45 @@ const meta = {
     <!-- ============ Quick Start ============ -->
     <section class="flow">
       <h2>Quick Start</h2>
-      <p>
-        Add <code>data-animate</code> to any element. It will animate when
-        scrolled into view.
-      </p>
-      <pre><code>&lt;h2 data-animate="fade"&gt;Hello&lt;/h2&gt;
+      <ol>
+        <li>
+          Install the package:
+          <pre><code>npm install astro-animations</code></pre>
+        </li>
+        <li>
+          Add <code>&lt;AstroAnimations /&gt;</code> to your base layout — it
+          injects all required CSS and the runtime script:
+          <pre><code>&#45;&#45;&#45;
+import &#123; AstroAnimations &#125; from 'astro-animations';
+&#45;&#45;&#45;
+
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;AstroAnimations /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;slot /&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </li>
+        <li>
+          Add <code>data-animate</code> to any element — it will animate when
+          scrolled into view:
+          <pre><code>&lt;h2 data-animate="fade"&gt;Hello&lt;/h2&gt;
 
 &lt;div data-animate="slide" data-animate-direction="left"&gt;
   Slides in from the left
 &lt;/div&gt;</code></pre>
-      <p>
-        Or use the <code>&lt;Animate&gt;</code> component for a props-based API:
-      </p>
-      <pre><code>---
-import Animate from '@components/animation/Animate.astro';
----
+        </li>
+        <li>
+          Or use the <code>&lt;Animate&gt;</code> component for a props-based API:
+          <pre><code>&#45;&#45;&#45;
+import &#123; Animate &#125; from 'astro-animations';
+&#45;&#45;&#45;
 
 &lt;Animate type="slide" direction="left" easing="spring"&gt;
   &lt;div&gt;Slides in from the left with spring easing&lt;/div&gt;
 &lt;/Animate&gt;</code></pre>
-    </section>
-
-    <!-- ============ Setup ============ -->
-    <section class="flow">
-      <h2>Setup</h2>
-      <p>
-        PandaMotion Lite is designed to be portable across Astro projects. To
-        integrate it:
-      </p>
-      <ol>
-        <li>
-          Copy these directories into your <code>src/</code>:
-          <ul>
-            <li><code>components/animation/</code></li>
-            <li><code>scripts/animations/</code></li>
-            <li><code>styles/animations/</code></li>
-            <li><code>types/animations.ts</code></li>
-          </ul>
-        </li>
-        <li>
-          Import the animation CSS in your global stylesheet:
-          <pre><code>@import 'animations/_animate-keyframes.css' layer(animations);
-@import 'animations/_animate-base.css' layer(animations);
-@import 'animations/_scroll-timeline.css' layer(animations);
-@import 'animations/_reduced-motion.css' layer(animations);</code></pre>
-        </li>
-        <li>
-          Add the init script to your base layout:
-          <pre><code>&lt;script&gt;
-  import '@scripts/animations/init';
-&lt;/script&gt;</code></pre>
         </li>
       </ol>
     </section>
@@ -152,7 +141,9 @@ import Animate from '@components/animation/Animate.astro';
           <tbody>
             <tr>
               <td><code>data-animate</code></td>
-              <td>Animation type to play when the element enters the viewport</td>
+              <td
+                >Animation type to play when the element enters the viewport</td
+              >
               <td>
                 <code>fade</code>, <code>slide</code>, <code>bounce</code>,
                 <code>zoom</code>, <code>flip</code>, <code>fold</code>,
@@ -189,7 +180,10 @@ import Animate from '@components/animation/Animate.astro';
             </tr>
             <tr>
               <td><code>data-animate-intensity</code></td>
-              <td>How far the element travels &mdash; preset name or numeric 0&ndash;1</td>
+              <td
+                >How far the element travels &mdash; preset name or numeric
+                0&ndash;1</td
+              >
               <td>
                 <code>subtle</code>, <code>normal</code>, <code>strong</code>,
                 <code>0</code>&ndash;<code>1</code>
@@ -204,15 +198,18 @@ import Animate from '@components/animation/Animate.astro';
             </tr>
             <tr>
               <td><code>data-animate-repeat</code></td>
-              <td>Whether the animation replays each time the element re-enters the viewport</td>
+              <td
+                >Whether the animation replays each time the element re-enters
+                the viewport</td
+              >
               <td><code>once</code>, <code>every</code></td>
               <td><code>once</code></td>
             </tr>
             <tr>
               <td><code>data-animate-threshold</code></td>
               <td>
-                Fraction of the element that must be visible before the animation
-                triggers. <code>0</code> fires as soon as any part appears;
+                Fraction of the element that must be visible before the
+                animation triggers. <code>0</code> fires as soon as any part appears;
                 <code>1</code> waits until the entire element is in view
               </td>
               <td><code>0</code>&ndash;<code>1</code></td>
@@ -329,8 +326,9 @@ import Animate from '@components/animation/Animate.astro';
       </div>
 
       <p>
-        The <code>spring</code> keyword maps to Open Props' <code>--ease-spring-3</code>,
-        a <code>linear()</code> approximation of a physics spring. Use
+        The <code>spring</code> keyword maps to Open Props' <code
+          >--ease-spring-3</code
+        >, a <code>linear()</code> approximation of a physics spring. Use
         <code>spring-1</code> (gentle) through <code>spring-5</code> (snappy) for
         fine-grained control.
       </p>
@@ -342,9 +340,10 @@ import Animate from '@components/animation/Animate.astro';
       <p>
         Controls how far elements travel. Set via
         <code>data-animate-intensity</code>. Accepts a named preset or a numeric
-        <code>0</code>&ndash;<code>1</code> value where <code>1.0</code> starts
-        the element fully off-screen. Translation values use viewport units
-        (<code>vh</code>) so animations scale proportionally across screen sizes.
+        <code>0</code>&ndash;<code>1</code> value where <code>1.0</code> starts the
+        element fully off-screen. Translation values use viewport units (<code
+          >vh</code
+        >) so animations scale proportionally across screen sizes.
       </p>
       <div class="table-wrap">
         <table>
@@ -391,10 +390,9 @@ import Animate from '@components/animation/Animate.astro';
       </div>
       <p>
         Named presets (<code>subtle</code>, <code>normal</code>,
-        <code>strong</code>) are also available as CSS attribute selectors in
-        <code>_animate-base.css</code>, so they work without JS setting custom
-        properties. Numeric values are resolved at runtime by the
-        IntersectionObserver script.
+        <code>strong</code>) are handled by CSS attribute selectors in the
+        injected stylesheet, so they work without JS. Numeric values are
+        resolved at runtime by the IntersectionObserver script.
       </p>
     </section>
 
@@ -403,8 +401,8 @@ import Animate from '@components/animation/Animate.astro';
       <h2>Staggered Animations</h2>
       <p>
         Set <code>data-animate-stagger</code> on a parent. Direct children with
-        <code>data-animate</code> will animate sequentially with the specified
-        delay between each.
+        <code>data-animate</code> will animate sequentially with the specified delay
+        between each.
       </p>
       <pre><code>&lt;div data-animate-stagger="150" data-animate-stagger-from="first"&gt;
   &lt;div data-animate="slide" data-animate-direction="up"&gt;1&lt;/div&gt;
@@ -412,10 +410,10 @@ import Animate from '@components/animation/Animate.astro';
   &lt;div data-animate="slide" data-animate-direction="up"&gt;3&lt;/div&gt;
 &lt;/div&gt;</code></pre>
       <p>
-        The <code>data-animate-stagger-from</code> attribute controls the
-        ordering: <code>first</code> (default) animates top-to-bottom,
-        <code>last</code> reverses the order, and <code>center</code> animates
-        outward from the middle.
+        The <code>data-animate-stagger-from</code> attribute controls the ordering:
+        <code>first</code> (default) animates top-to-bottom,
+        <code>last</code> reverses the order, and <code>center</code> animates outward
+        from the middle.
       </p>
     </section>
 
@@ -425,12 +423,12 @@ import Animate from '@components/animation/Animate.astro';
 
       <h3>&lt;Animate&gt;</h3>
       <p>
-        Declarative wrapper that renders <code>data-animate-*</code> attributes
-        from props.
+        Declarative wrapper that renders <code>data-animate-*</code> attributes from
+        props.
       </p>
-      <pre><code>---
-import Animate from '@components/animation/Animate.astro';
----
+      <pre><code>&#45;&#45;&#45;
+import &#123; Animate &#125; from 'astro-animations';
+&#45;&#45;&#45;
 
 &lt;Animate type="slide" direction="left" easing="spring" duration={800}&gt;
   &lt;div&gt;Content&lt;/div&gt;
@@ -518,6 +516,12 @@ import Animate from '@components/animation/Animate.astro';
               <td>number (0&ndash;1)</td>
               <td><code>0.2</code></td>
             </tr>
+            <tr>
+              <td><code>class</code></td>
+              <td>CSS class(es) applied to the rendered element</td>
+              <td>string</td>
+              <td>&mdash;</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -527,9 +531,9 @@ import Animate from '@components/animation/Animate.astro';
         Declarative wrapper for CSS scroll-linked effects. In PandaMotion Lite,
         all scroll effects use CSS Scroll Timeline (no JS fallback).
       </p>
-      <pre><code>---
-import ScrollEffect from '@components/animation/ScrollEffect.astro';
----
+      <pre><code>&#45;&#45;&#45;
+import &#123; ScrollEffect &#125; from 'astro-animations';
+&#45;&#45;&#45;
 
 &lt;ScrollEffect type="parallax" speed={0.5}&gt;
   &lt;div&gt;Parallax content&lt;/div&gt;
@@ -654,200 +658,16 @@ import ScrollEffect from '@components/animation/ScrollEffect.astro';
       <ul>
         <li>
           <strong>Reduced motion</strong> &mdash; When
-          <code>prefers-reduced-motion: reduce</code> is active, all animations
-          are disabled and elements are forced visible (both in CSS and JS).
+          <code>prefers-reduced-motion: reduce</code> is active, all animations are
+          disabled and elements are forced visible (both in CSS and JS).
         </li>
         <li>
-          <strong>Progressive enhancement</strong> &mdash; Elements are visible
-          by default. JavaScript applies the initial hidden state via the
+          <strong>Progressive enhancement</strong> &mdash; Elements are visible by
+          default. JavaScript applies the initial hidden state via the
           <code>data-animate-ready</code> guard on <code>&lt;body&gt;</code>, so
           content is always accessible without JS.
         </li>
       </ul>
-    </section>
-
-    <!-- ============ View Transitions ============ -->
-    <section class="flow">
-      <h2>Astro View Transitions</h2>
-      <p>
-        The animation system hooks into Astro's View Transitions lifecycle. When
-        active, animations re-initialise on <code>astro:page-load</code> and
-        clean up on <code>astro:before-swap</code> to prevent leaked observers.
-        Without View Transitions, these listeners are harmless no-ops.
-      </p>
-    </section>
-
-    <!-- ============ Architecture ============ -->
-    <section class="flow">
-      <h2>Architecture</h2>
-      <pre><code>src/
-  types/
-    animations.ts           TypeScript interfaces
-  scripts/animations/
-    constants.ts            Defaults, intensity presets, 36 easing presets
-    observer.ts             IntersectionObserver-based scroll-trigger
-    init.ts                 Entry point, lifecycle, reduced motion
-  styles/animations/
-    _animate-keyframes.css  @keyframes for all 7 types &times; directions
-    _animate-base.css       Hidden states, animation mapping, intensity
-    _scroll-timeline.css    Pure CSS scroll animations (view())
-    _reduced-motion.css     prefers-reduced-motion overrides
-  components/animation/
-    Animate.astro           Declarative &lt;Animate&gt; wrapper
-    ScrollEffect.astro      Declarative &lt;ScrollEffect&gt; wrapper</code></pre>
-    </section>
-
-    <!-- ============ How It Works ============ -->
-    <section class="flow">
-      <h2>How It Works</h2>
-
-      <h3>Entrance Animations</h3>
-      <ol>
-        <li>
-          On page load, <code>init.ts</code> checks
-          <code>prefers-reduced-motion</code>. If reduced, all elements are
-          forced visible and no observers are created.
-        </li>
-        <li>
-          <code>observer.ts</code> discovers all <code>[data-animate]</code>
-          elements, parses their data attributes into config objects, and sets
-          CSS custom properties (<code>--animate-duration</code>,
-          <code>--animate-delay</code>, <code>--animate-easing</code>,
-          <code>--animate-translate</code>, etc.) on each element.
-        </li>
-        <li>
-          An <code>IntersectionObserver</code> watches each element. When it
-          enters the viewport, the <code>.is-animating</code> class is added,
-          which triggers the CSS <code>@keyframes</code> animation.
-        </li>
-        <li>
-          For <code>repeat="every"</code> elements, the class is removed on
-          exit so the animation re-triggers on the next entry.
-        </li>
-      </ol>
-
-      <h3>Stagger Groups</h3>
-      <p>
-        Parents with <code>data-animate-stagger</code> are observed separately.
-        When the parent enters the viewport, all direct children with
-        <code>data-animate</code> receive <code>.is-animating</code>
-        simultaneously &mdash; but each child has an incrementing
-        <code>--animate-delay</code> set by the observer, creating the stagger
-        effect.
-      </p>
-
-      <h3>Scroll-Linked Effects</h3>
-      <p>
-        Scroll effects use pure CSS <code>animation-timeline: view()</code>.
-        The <code>--scroll-speed</code> custom property controls intensity.
-        No JavaScript is involved.
-      </p>
-    </section>
-
-    <!-- ============ Bundle Size ============ -->
-    <section class="flow">
-      <h2>Bundle Size</h2>
-      <p>
-        PandaMotion Lite has zero external dependencies. The entire animation
-        runtime &mdash; IntersectionObserver orchestration, attribute parsing,
-        easing map, and constants &mdash; compiles to a single JS chunk.
-      </p>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Metric</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>JS bundle (gzipped)</td>
-              <td>~2.8 kB</td>
-            </tr>
-            <tr>
-              <td>CSS (4 files, before gzip)</td>
-              <td>~4 kB</td>
-            </tr>
-            <tr>
-              <td>External dependencies</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>Animation types</td>
-              <td>7</td>
-            </tr>
-            <tr>
-              <td>Scroll effects</td>
-              <td>6 (CSS-only)</td>
-            </tr>
-            <tr>
-              <td>Easing presets</td>
-              <td>36</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ============ Differences from Full ============ -->
-    <section class="flow">
-      <h2>Differences from Full PandaMotion</h2>
-      <p>
-        PandaMotion Lite is a zero-dependency alternative to the full
-        PandaMotion system (which uses the
-        <a href="https://motion.dev">Motion</a> library). The API is identical
-        &mdash; the same data attributes and components work in both versions.
-      </p>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Full</th>
-              <th>Lite</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Entrance trigger</td>
-              <td>Motion <code>inView()</code></td>
-              <td><code>IntersectionObserver</code></td>
-            </tr>
-            <tr>
-              <td>Entrance animation</td>
-              <td>Motion <code>animate()</code> (WAAPI)</td>
-              <td>CSS <code>@keyframes</code> + class toggle</td>
-            </tr>
-            <tr>
-              <td>Physics <code>spring</code></td>
-              <td>Motion <code>spring()</code> engine</td>
-              <td>Open Props <code>--ease-spring-3</code> (<code>linear()</code>)</td>
-            </tr>
-            <tr>
-              <td>Scroll effects (JS)</td>
-              <td>Motion <code>scroll()</code> fallback</td>
-              <td>Not included</td>
-            </tr>
-            <tr>
-              <td>Scroll effects (CSS)</td>
-              <td><code>animation-timeline: view()</code></td>
-              <td><code>animation-timeline: view()</code></td>
-            </tr>
-            <tr>
-              <td>JS bundle (gzip)</td>
-              <td>~26 kB</td>
-              <td>~2.8 kB</td>
-            </tr>
-            <tr>
-              <td>Dependencies</td>
-              <td>motion</td>
-              <td>None</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </section>
   </main>
 </Layout>

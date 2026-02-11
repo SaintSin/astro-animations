@@ -7,7 +7,7 @@ const { pathname } = Astro.url;
 const links = [
   { label: 'Home', href: '/' },
   { label: 'Docs', href: '/documentation/' },
-  { label: 'About', href: '/about/' },
+  // { label: 'About', href: '/about/' },
 ];
 ---
 
@@ -15,7 +15,7 @@ const links = [
   {
     links.map((link) => (
       <a
-        class={pathname == link.href ? 'active--exact' : ''}
+        class={pathname == link.href ? "active--exact" : ""}
         href={link.href}
         data-astro-prefetch
       >

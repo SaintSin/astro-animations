@@ -7,26 +7,26 @@ import Layout from '@layouts/BaseLayout.astro';
 import { Animate, ScrollEffect } from 'astro-animations';
 
 const meta = {
-  title: 'PandaMotion Lite',
+  title: 'PandaMotion: An Animation Library for Astro',
   description:
-    'Lightweight CSS + IntersectionObserver animation system for Astro',
+    'An Astro intergration: Lightweight, modern CSS with intersection observer',
   imageOG: 'generic-social-1200x630.png',
-  altOG: 'PandaMotion Lite',
+  altOG: 'PandaMotion',
 };
 ---
 
 <Layout metaData={meta}>
   <main class="wrapper flow">
     <!-- ============ Hero ============ -->
-    <h1 data-animate="fade">PandaMotion Lite</h1>
+    <h1 data-animate="fade">PandaMotion</h1>
     <p
       data-animate="slide"
       data-animate-direction="up"
       data-animate-delay="200"
     >
-      A lightweight animation system using CSS <code>@keyframes</code>,
-      <code>IntersectionObserver</code>, and
-      <code>animation-timeline: view()</code>. Zero dependencies.
+      A lightweight animation system using CSS <i>@keyframes</i>,
+      <i>IntersectionObserver</i>, and
+      <i>animation-timeline: view()</i>. Zero dependencies, &lt; 7kB compressed.
     </p>
 
     <!-- ============ 1. Animation Types ============ -->
@@ -143,7 +143,8 @@ const meta = {
     <section class="flow">
       <h2 data-animate="fade">Easing Functions</h2>
       <p data-animate="fade">
-        36 easings from <a href="https://open-props.style">Open Props</a>
+        36 easings from <a href="https://open-props.style/#easing">Open Props</a
+        >
         — cubic-bezier, spring, bounce, and elastic curves.
       </p>
 
