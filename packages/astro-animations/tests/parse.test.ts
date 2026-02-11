@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { DEFAULTS } from '../constants.ts';
-import { parseAnimateConfig, parseStaggerConfig } from '../parse.ts';
+import { DEFAULTS } from '../src/lib/constants.ts';
+import { parseAnimateConfig, parseStaggerConfig } from '../src/lib/parse.ts';
 
 /** Helper: create a div with dataset properties set from a camelCase map. */
 function makeEl(dataset: Record<string, string> = {}): HTMLElement {

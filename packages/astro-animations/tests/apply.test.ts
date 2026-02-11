@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   applyAnimationProperties,
   clearAnimationProperties,
-} from '../apply.ts';
+} from '../src/lib/apply.ts';
 
 /** Minimal config matching the shape returned by parseAnimateConfig. */
 const baseConfig = {

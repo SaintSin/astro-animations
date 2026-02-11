@@ -4,7 +4,7 @@ import {
   ROTATION_PRESETS,
   intensityToRotate,
   resolveIntensity,
-} from '../constants.ts';
+} from '../src/lib/constants.ts';
 
 describe('resolveIntensity', () => {
   it('returns a number within 0–1 unchanged', () => {
