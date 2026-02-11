@@ -1,7 +1,18 @@
 {
-  "name": "astroinitial",
+  "name": "astro-animations",
   "type": "module",
   "version": "0.0.1",
+  "description": "A lightbox/gallery component for Astro, using content collections, optimised images and modern CSS",
+  "author": {
+    "name": "StJohn Mackay"
+  },
+  "license": "MIT",
+  "keywords": [
+    "astro",
+    "astro-component",
+    "animation",
+    "lightweight"
+  ],
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
