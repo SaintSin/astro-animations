@@ -89,7 +89,7 @@ the package name (e.g. `astro-animations`) rather than a relative path, so
 the test mirrors real-world usage.
 
 - [x] Confirm the root project imports from `astro-animations` (not `../../packages/...`)
-- [ ] Add fixture pages that test each exported component
+- [x] Add fixture pages that test each exported component — `index.astro` covers all 7 types, stagger, repeat, reduced-motion, and ScrollEffect; Playwright targets these directly
 - [x] Verify `astro dev` and `astro build` work correctly end-to-end
 
 ---
@@ -157,10 +157,10 @@ packages/astro-animations/src/lib/
 </script>
 ```
 
-- [ ] Create `packages/astro-animations/src/lib/` directory
-- [ ] Split bundled script into the four modules above
-- [ ] Update `astro-animations.astro` `<script>` to import from lib
-- [ ] Verify `pnpm dev` and `pnpm build` still work
+- [x] Create `packages/astro-animations/src/lib/` directory
+- [x] Split bundled script into the four modules above
+- [x] Update `astro-animations.astro` `<script>` to import from lib
+- [x] Verify `pnpm dev` and `pnpm build` still work
 
 ### 8b — Unit tests (Vitest)
 
@@ -192,11 +192,11 @@ Add to `packages/astro-animations/package.json`:
 }
 ```
 
-- [ ] Install Vitest in the package workspace
-- [ ] Write unit tests for `resolveIntensity` and `intensityToRotate`
-- [ ] Write unit tests for `parseAnimateConfig`
-- [ ] Write unit tests for `parseStaggerConfig`
-- [ ] Write DOM tests for `applyAnimationProperties` (jsdom)
+- [x] Install Vitest in the package workspace
+- [x] Write unit tests for `resolveIntensity` and `intensityToRotate`
+- [x] Write unit tests for `parseAnimateConfig`
+- [x] Write unit tests for `parseStaggerConfig`
+- [x] Write DOM tests for `applyAnimationProperties` (jsdom)
 
 ### 8c — End-to-end tests (Playwright)
 
@@ -226,12 +226,12 @@ Add to root `package.json`:
 }
 ```
 
-- [ ] Install Playwright at the root
-- [ ] Add fixture pages to demo site (one element per animation type)
-- [ ] Write scroll-trigger test for each animation type
-- [ ] Write reduced-motion test
-- [ ] Write stagger ordering test
-- [ ] Add a `test:e2e` script to root `package.json`
+- [x] Install Playwright at the root
+- [x] Add fixture pages to demo site (one element per animation type)
+- [x] Write scroll-trigger test for each animation type
+- [x] Write reduced-motion test
+- [x] Write stagger ordering test
+- [x] Add a `test:e2e` script to root `package.json`
 
 ---
 

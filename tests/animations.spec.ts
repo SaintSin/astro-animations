@@ -20,7 +20,9 @@ test('in-viewport elements get is-animating on page load', async ({ page }) => {
 // Scroll-triggered animations
 // ---------------------------------------------------------------------------
 
-test('element gets is-animating after scrolling into view', async ({ page }) => {
+test('element gets is-animating after scrolling into view', async ({
+  page,
+}) => {
   await page.goto('/');
   // The roll element is well below the fold
   const rollEl = page.locator('[data-animate="roll"]').first();
@@ -28,9 +30,19 @@ test('element gets is-animating after scrolling into view', async ({ page }) => 
   await expect(rollEl).toHaveClass(/is-animating/);
 });
 
-test('all seven animation types animate when scrolled into view', async ({ page }) => {
+test('all seven animation types animate when scrolled into view', async ({
+  page,
+}) => {
   await page.goto('/');
-  for (const type of ['fade', 'slide', 'bounce', 'zoom', 'flip', 'fold', 'roll']) {
+  for (const type of [
+    'fade',
+    'slide',
+    'bounce',
+    'zoom',
+    'flip',
+    'fold',
+    'roll',
+  ]) {
     const el = page.locator(`[data-animate="${type}"]`).first();
     await el.scrollIntoViewIfNeeded();
     await expect(el).toHaveClass(/is-animating/, { timeout: 2000 });
@@ -41,7 +53,9 @@ test('all seven animation types animate when scrolled into view', async ({ page 
 // Stagger
 // ---------------------------------------------------------------------------
 
-test('stagger children have sequentially increasing --animate-delay', async ({ page }) => {
+test('stagger children have sequentially increasing --animate-delay', async ({
+  page,
+}) => {
   await page.goto('/');
   const parent = page.locator('[data-animate-stagger]').first();
   const children = parent.locator(':scope > [data-animate]');
@@ -64,7 +78,9 @@ test('stagger children have sequentially increasing --animate-delay', async ({ p
 // repeat="every"
 // ---------------------------------------------------------------------------
 
-test('repeat=every element re-animates after leaving and re-entering viewport', async ({ page }) => {
+test('repeat=every element re-animates after leaving and re-entering viewport', async ({
+  page,
+}) => {
   await page.goto('/');
   const el = page.locator('[data-animate-repeat="every"]').first();
 
@@ -88,7 +104,9 @@ test('repeat=every element re-animates after leaving and re-entering viewport', 
 // Reduced motion
 // ---------------------------------------------------------------------------
 
-test('prefers-reduced-motion: body does not get data-animate-ready', async ({ browser }) => {
+test('prefers-reduced-motion: body does not get data-animate-ready', async ({
+  browser,
+}) => {
   const context = await browser.newContext({ reducedMotion: 'reduce' });
   const page = await context.newPage();
   await page.goto('/');
@@ -96,7 +114,9 @@ test('prefers-reduced-motion: body does not get data-animate-ready', async ({ br
   await context.close();
 });
 
-test('prefers-reduced-motion: in-viewport elements get opacity:1 directly', async ({ browser }) => {
+test('prefers-reduced-motion: in-viewport elements get opacity:1 directly', async ({
+  browser,
+}) => {
   const context = await browser.newContext({ reducedMotion: 'reduce' });
   const page = await context.newPage();
   await page.goto('/');
@@ -110,7 +130,9 @@ test('prefers-reduced-motion: in-viewport elements get opacity:1 directly', asyn
 // CSS Scroll Timeline (ScrollEffect)
 // ---------------------------------------------------------------------------
 
-test('ScrollEffect elements have data-scroll-css attribute', async ({ page }) => {
+test('ScrollEffect elements have data-scroll-css attribute', async ({
+  page,
+}) => {
   await page.goto('/');
   const effects = page.locator('[data-scroll-effect]');
   const count = await effects.count();

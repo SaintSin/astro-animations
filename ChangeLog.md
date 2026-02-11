@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026-02-11 — Testing infrastructure
+
+### Added
+
+- **Vitest unit tests** (`packages/astro-animations/tests/`) — 54 tests across 3 files:
+  - `constants.test.ts` — `resolveIntensity`, `intensityToRotate`
+  - `parse.test.ts` — `parseAnimateConfig`, `parseStaggerConfig`
+  - `apply.test.ts` — `applyAnimationProperties`, `clearAnimationProperties` (jsdom)
+- **Playwright e2e tests** (`tests/animations.spec.ts`) — 9 tests covering all 7 animation types, stagger ordering, `repeat="every"` re-animation, `prefers-reduced-motion`, and ScrollEffect
+- **Vitest config** (`packages/astro-animations/vitest.config.ts`) with `environment: 'jsdom'`
+- **Playwright config** (`playwright.config.ts`) using `pnpm preview` as webServer
+
+### Changed
+
+- Extracted ~360-line inline script from `astro-animations.astro` into four focused modules:
+  - `src/lib/constants.ts` — DEFAULTS, EASING_MAP, intensity/rotation presets and helpers
+  - `src/lib/parse.ts` — `parseAnimateConfig`, `parseStaggerConfig`
+  - `src/lib/apply.ts` — `applyAnimationProperties`, `clearAnimationProperties`, `promoteElement`
+  - `src/lib/observer.ts` — IntersectionObserver orchestration, `initAnimations`, `destroyAnimations`
+- `astro-animations.astro` script block reduced to 5 lines (imports from lib); output bundle unchanged at ~8.5 kB
+- Test files located in `packages/astro-animations/tests/` (outside `src/`) so they are not included in the published npm package
+
+### Updated READMEs
+
+- `packages/astro-animations/README.md` — replaced placeholder with full API documentation (installation, `<AstroAnimations>`, `<Animate>`, `<ScrollEffect>`, data attributes, stagger, TypeScript exports, accessibility, browser support)
+- `README.md` (root) — replaced generic starter template copy with monorepo description, correct directory structure, npm badge, and workflow notes
+
+---
+
 ## 2025-02-10 — PandaMotion Lite: Initial Implementation
 
 Implemented a lightweight, zero-dependency animation system for Astro based on the full PandaMotion system (AstroAnimations). Replaces the Motion library with CSS `@keyframes`, `IntersectionObserver`, and CSS Scroll Timeline.
