@@ -79,5 +79,7 @@ See [NPM-PUBLISH-PLAN.md](NPM-PUBLISH-PLAN.md) for the full publishing checklist
 
 MIT — [StJohn Mackay](https://github.com/SaintSin)
 
+---
+
 If you find this useful please give me the repo a star, or consider supporting my caffeine habbit.
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X714JIO0)
