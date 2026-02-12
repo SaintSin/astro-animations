@@ -1,8 +1,8 @@
 import {
   DEFAULTS,
   EASING_MAP,
-  resolveIntensity,
   intensityToRotate,
+  resolveIntensity,
 } from './constants.ts';
 import type { parseAnimateConfig } from './parse.ts';
 

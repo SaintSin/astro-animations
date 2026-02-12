@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
   INTENSITY_PRESETS,
-  ROTATION_PRESETS,
   intensityToRotate,
+  ROTATION_PRESETS,
   resolveIntensity,
 } from '../src/lib/constants.ts';
 
