@@ -1,6 +1,6 @@
 # astro-animations
 
-Lightweight, zero-dependency scroll-triggered animations and CSS scroll-linked effects for [Astro](https://astro.build).
+Lightweight, zero-dependency, scroll-triggered animations and CSS scroll-linked effects for [Astro](https://astro.build).
 
 - Animations trigger when elements enter the viewport (via `IntersectionObserver`)
 - Scroll effects use the native CSS Scroll Timeline API — no JavaScript
@@ -58,6 +58,10 @@ import { Animate } from 'astro-animations';
 <Animate type="slide" direction="up" duration={600} easing="spring">
   <h2>Slides up with a spring easing.</h2>
 </Animate>
+
+<Animate type="fade" reverse offset={50}>
+  <p>Starts visible, fades out at the viewport centre.</p>
+</Animate>
 ```
 
 #### Animate props
@@ -67,13 +71,15 @@ import { Animate } from 'astro-animations';
 | `type` | `AnimationType` | — | **Required.** Animation type (see below) |
 | `as` | `string` | `'div'` | HTML tag to render |
 | `direction` | `AnimateDirection` | `'up'` | Direction for directional animations |
-| `duration` | `number` | `400` | Duration in milliseconds |
+| `duration` | `number` | `700` | Duration in milliseconds |
 | `delay` | `number` | `0` | Delay in milliseconds |
-| `easing` | `AnimateEasing` | `'ease-3'` | Easing function (see below) |
+| `easing` | `AnimateEasing` | `'ease-out-3'` | Easing function (see below) |
 | `intensity` | `AnimateIntensity` | `'normal'` | `'subtle'`, `'normal'`, `'strong'`, or `0`–`1` |
 | `opacity` | `number` | `0` | Starting opacity (0–1) |
+| `reverse` | `boolean` | `false` | Play animation in reverse on entry (element starts visible, animates out) |
 | `repeat` | `AnimateRepeat` | `'once'` | `'once'` or `'every'` (re-animates each time) |
-| `threshold` | `number` | `0.1` | Intersection threshold (0–1) |
+| `threshold` | `number` | `0.2` | Fraction of element visible before triggering (0–1) |
+| `offset` | `number` | `0` | Viewport offset from the bottom edge (0–100%). `50` triggers at the viewport centre |
 | `class` | `string` | — | Additional CSS class |
 
 #### Animation types
@@ -149,31 +155,52 @@ import { ScrollEffect } from 'astro-animations';
 Both components are optional convenience wrappers. You can apply animations directly with `data-*` attributes on any element:
 
 ```html
-<!-- Animate -->
+<!-- Basic animation -->
 <div data-animate="fade">...</div>
 <div data-animate="slide" data-animate-direction="left" data-animate-duration="600">...</div>
 
+<!-- Reverse: starts visible, animates out on entry -->
+<div data-animate="slide" data-animate-direction="up" data-animate-reverse>...</div>
+
+<!-- Viewport offset: triggers at centre of viewport -->
+<div data-animate="fade" data-animate-offset="50">...</div>
+
 <!-- Scroll effect -->
-<div data-scroll-effect="parallax" data-scroll-css data-scroll-speed="0.5">...</div>
+<div data-scroll-effect="parallax" data-scroll-speed="0.5">...</div>
 ```
+
+### Data attributes
+
+| Attribute | Values | Default | Description |
+| :-------- | :----- | :------ | :---------- |
+| `data-animate` | `fade` `slide` `bounce` `zoom` `flip` `fold` `roll` | — | Animation type |
+| `data-animate-direction` | `up` `down` `left` `right` | `up` | Direction |
+| `data-animate-duration` | ms | `700` | Duration |
+| `data-animate-delay` | ms | `0` | Delay |
+| `data-animate-easing` | easing name | `ease-out-3` | Easing function |
+| `data-animate-intensity` | `subtle` `normal` `strong` or `0`–`1` | `normal` | Transform intensity |
+| `data-animate-opacity` | `0`–`1` | `0` | Starting opacity |
+| `data-animate-reverse` | boolean (presence) | — | Animate out instead of in |
+| `data-animate-repeat` | `once` `every` | `once` | Replay behaviour |
+| `data-animate-threshold` | `0`–`1` | `0.2` | Fraction of element visible before triggering |
+| `data-animate-offset` | `0`–`100` | `0` | Viewport offset from bottom edge (%) |
 
 ### Stagger children
 
-Add `data-stagger` to a parent to stagger the animation of its direct children:
+Add `data-animate-stagger` to a parent to stagger the animation of its direct children:
 
 ```html
-<ul data-stagger>
+<ul data-animate-stagger="100">
   <li data-animate="fade">Item 1</li>
   <li data-animate="fade">Item 2</li>
   <li data-animate="fade">Item 3</li>
 </ul>
 ```
 
-| Attribute | Values | Description |
-| :-------- | :----- | :---------- |
-| `data-stagger` | — | Enables stagger on children |
-| `data-stagger-duration` | ms (e.g. `100`) | Delay between each child |
-| `data-stagger-from` | `first` · `last` · `center` | Where stagger originates |
+| Attribute | Values | Default | Description |
+| :-------- | :----- | :------ | :---------- |
+| `data-animate-stagger` | ms (e.g. `100`) | `100` | Delay between each child |
+| `data-animate-stagger-from` | `first` · `last` · `center` | `first` | Where stagger originates |
 
 ---
 
