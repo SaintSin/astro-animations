@@ -1,5 +1,5 @@
 ---
-// pages/index.astro — PandaMotion Demo
+// pages/animations.astro — PandaMotion Demo
 
 import { Image } from 'astro:assets';
 import panda from '@images/panda-01.jpg';
@@ -13,72 +13,12 @@ const meta = {
   imageOG: 'generic-social-1200x630.png',
   altOG: 'PandaMotion',
 };
-
-const pandaFacts: string[] = [
-  'Pandas spend up to 14 hours a day eating bamboo to meet their energy needs.',
-  'An adult giant panda can eat 9–18 kilograms of bamboo every day.',
-  "Despite being classified as carnivores, over 99% of a panda's diet is plant-based.",
-  'Pandas have a special "pseudo-thumb," an extended wrist bone that helps them grip bamboo stalks.',
-  'Newborn panda cubs weigh only about 85–140 grams, roughly the size of a small bar of soap.',
-  'Panda cubs are born pink, hairless, and blind, developing their iconic black-and-white fur weeks later.',
-  "Each panda's black-and-white facial markings are unique, similar to human fingerprints.",
-  'Giant pandas are excellent climbers and can also swim well.',
-  'Pandas communicate through bleats, honks, scent markings, and body language rather than roaring.',
-  'The giant panda is a global conservation symbol and the official logo of the World Wildlife Fund (WWF).',
-];
 ---
 
 <Layout metaData={meta}>
   <main class="wrapper flow">
     <!-- ============ Hero ============ -->
-    <div class="title">
-      <h1
-        data-animate="slide"
-        data-animate-direction="right"
-        data-animate-easing="spring-5"
-      >
-        Panda
-      </h1>
-      <h2
-        data-animate="slide"
-        data-animate-direction="left"
-        data-animate-delay="400"
-        data-animate-duration="2000"
-        data-animate-easing="spring-5"
-      >
-        Motion
-      </h2>
-    </div>
-    <p
-      data-animate="slide"
-      data-animate-direction="up"
-      data-animate-delay="200"
-    >
-      A lightweight animation system using CSS <i>@keyframes</i>,
-      <i>IntersectionObserver</i>, and
-      <i>animation-timeline: view()</i>. Zero dependencies, &lt; 7kB compressed.
-    </p>
-    <section class="flow">
-      <h2>Staggered, Staggering Facts About Pandas!</h2>
-      <ul
-        id="pandaFacts"
-        data-animate-stagger="500"
-        data-animate-stagger-from="first"
-      >
-        {
-          pandaFacts.map((fact, i) => (
-            <li
-              data-animate="slide"
-              data-animate-direction={i % 2 === 0 ? "left" : "right"}
-              data-animate-duration={900}
-              data-animate-intensity={0.5}
-            >
-              {fact}
-            </li>
-          ))
-        }
-      </ul>
-    </section>
+    <h1>PandaMotion</h1>
 
     <!-- ============ 1. Animation Types ============ -->
     <section class="flow">
@@ -383,75 +323,42 @@ const pandaFacts: string[] = [
       </div>
     </section>
   </main>
-</Layout>
 
-<style>
-  .demo-card {
-    background: var(--color-surface);
-    border: 1px solid var(--gray-3, #ddd);
-    border-radius: var(--radius-2, 0.5rem);
-    padding: var(--space-m, 1.5rem);
-    min-height: 8rem;
-    display: grid;
-    place-content: center;
-    text-align: center;
-  }
-
-  .demo-card h3 {
-    margin-block-end: var(--space-3xs, 0.25rem);
-  }
-
-  .demo-card p {
-    font-size: var(--step--1, 0.875rem);
-    opacity: 0.7;
-  }
-
-  .demo-card code {
-    font-size: var(--step--1, 0.875rem);
-    background: var(--gray-2, #eee);
-    padding-inline: 0.25em;
-    border-radius: 0.2em;
-  }
-
-  section {
-    padding-block: var(--space-l, 2rem);
-  }
-
-  .title > * {
-    display: inline-block;
-    font-size: calc(var(--step-6) * 2);
-    font-weight: var(--font-weight-9);
-  }
-  .title h1 {
-    color: var(--red-8);
-  }
-  .title h2 {
-    color: var(--yellow-8);
-  }
-  ul#pandaFacts {
-    list-style-type: none;
-    padding: 0;
-    li {
-      max-width: 40ch;
-      background: var(--yellow-3);
-      margin: 2ch;
-      padding: 4ch;
+  <style>
+    .demo-card {
+      background: var(--color-surface);
+      border: 1px solid var(--gray-3, #ddd);
+      border-radius: var(--radius-2, 0.5rem);
+      padding: var(--space-m, 1.5rem);
+      min-height: 8rem;
+      display: grid;
+      place-content: center;
       text-align: center;
     }
-    li:nth-child(5n + 1) {
-      border-radius: var(--radius-blob-1);
+
+    .demo-card h3 {
+      margin-block-end: var(--space-3xs, 0.25rem);
     }
-    li:nth-child(5n + 2) {
-      border-radius: var(--radius-blob-2);
+
+    .demo-card p {
+      font-size: var(--step--1, 0.875rem);
+      opacity: 0.7;
     }
-    li:nth-child(5n + 3) {
-      border-radius: var(--radius-blob-3);
+
+    .demo-card code {
+      font-size: var(--step--1, 0.875rem);
+      background: var(--gray-2, #eee);
+      padding-inline: 0.25em;
+      border-radius: 0.2em;
     }
-    li:nth-child(5n + 4) {
-      border-radius: var(--radius-blob-4);
+
+    section {
+      padding-block: var(--space-l, 2rem);
+      padding-block-start: var(--space-3xl);
     }
-    li:nth-child(5n + 5) {
-      border-radius: var(--radius-blob-5);
+
+    img {
+      border-radius: var(--radius-2, 0.5rem);
     }
-  }
-</style>
+  </style>
+</Layout>

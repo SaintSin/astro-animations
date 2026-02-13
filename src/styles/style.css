@@ -1,16 +1,16 @@
-@import '_reset.css' layer(components);
+@import "_reset.css" layer(components);
 
-@import '_tokens.css' layer(components);
-@import '_layout.css' layer(components);
+@import "_tokens.css" layer(components);
+@import "_layout.css" layer(components);
 
-@import 'compositions/flow.css' layer(components);
-@import 'compositions/wrapper.css' layer(components);
-@import 'compositions/grid.css' layer(components);
+@import "compositions/flow.css" layer(components);
+@import "compositions/wrapper.css" layer(components);
+@import "compositions/grid.css" layer(components);
 
-@import 'animations/_animate-keyframes.css' layer(animations);
-@import 'animations/_animate-base.css' layer(animations);
-@import 'animations/_scroll-timeline.css' layer(animations);
-@import 'animations/_reduced-motion.css' layer(animations);
+@import "animations/_animate-keyframes.css" layer(animations);
+@import "animations/_animate-base.css" layer(animations);
+@import "animations/_scroll-timeline.css" layer(animations);
+@import "animations/_reduced-motion.css" layer(animations);
 
 /* Native cross-document View Transitions (Chrome 126+, no JS needed) */
 @view-transition {
@@ -19,4 +19,13 @@
 
 .content {
   height: 100%;
+}
+@font-face {
+  src: local("Comfortaa"), url("/fonts/Comfortaa-VariableFont_wght.woff2");
+  font-family: Comfortaa;
+  font-display: swap;
+}
+h1,
+h2 {
+  font-family: Comfortaa, sans-serif;
 }

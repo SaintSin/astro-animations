@@ -7,26 +7,50 @@ const { pathname } = Astro.url;
 const links = [
   { label: 'Home', href: '/' },
   { label: 'Docs', href: '/documentation/' },
-  // { label: 'About', href: '/about/' },
+  { label: 'Animations', href: '/animations/' },
 ];
+
+import { Icon } from 'astro-icon/components';
 ---
 
-<div class="nav-links">
-  {
-    links.map((link) => (
-      <a
-        class={pathname == link.href ? "active--exact" : ""}
-        href={link.href}
-        data-astro-prefetch
-      >
-        {link.label}
-      </a>
-    ))
-  }
-</div>
+<nav class="nav-links">
+  <ul role="list" aria-label="Main menu">
+    {
+      links.map((link) => (
+        <li>
+          <a
+            class={pathname == link.href ? "active--exact" : ""}
+            href={link.href}
+            data-astro-prefetch
+          >
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <a
+    href="https://github.com/SaintSin/astro-animations"
+    aria-label="Repositry for PandaMotion on Github"
+  >
+    <Icon name="carbon:logo-github" />
+  </a>
+</nav>
 
 <style>
+  nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
   .nav-links {
+    ul {
+      margin: 0px;
+      padding: 0px;
+      li {
+        display: inline-block;
+      }
+    }
     a {
       padding-inline-end: var(--gap);
       text-decoration: none;
@@ -37,5 +61,8 @@ const links = [
       text-decoration-thickness: 2px;
       text-underline-offset: 4px;
     }
+  }
+  [data-icon] {
+    font-size: 2rem;
   }
 </style>

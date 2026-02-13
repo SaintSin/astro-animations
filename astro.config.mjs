@@ -14,5 +14,5 @@ export default defineConfig({
   },
   integrations: [sitemap(), icon()],
   prefetch: true,
-  site: 'http://localhost/',
+  site: 'https://astro-animations.netlify.app/',
 });
