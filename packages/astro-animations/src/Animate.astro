@@ -27,6 +27,8 @@ interface Props {
   intensity?: AnimateIntensity;
   /** Starting opacity (0–1) */
   opacity?: number;
+  /** Reverse: animate out on exit instead of in on entry */
+  reverse?: boolean;
   /** Repeat behaviour */
   repeat?: AnimateRepeat;
   /** Intersection threshold (0–1) */
@@ -45,6 +47,7 @@ const {
   easing,
   intensity,
   opacity,
+  reverse,
   repeat,
   threshold,
   class: className,
@@ -60,6 +63,7 @@ const dataAttrs: Record<string, string | undefined> = {
   'data-animate-easing': easing,
   'data-animate-intensity': intensity?.toString(),
   'data-animate-opacity': opacity?.toString(),
+  'data-animate-reverse': reverse ? '' : undefined,
   'data-animate-repeat': repeat,
   'data-animate-threshold': threshold?.toString(),
 };

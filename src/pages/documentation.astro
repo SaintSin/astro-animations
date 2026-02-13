@@ -197,6 +197,16 @@ import &#123; Animate &#125; from 'astro-animations';
               <td><code>0</code></td>
             </tr>
             <tr>
+              <td><code>data-animate-reverse</code></td>
+              <td
+                >Reverses the animation so the element starts visible and
+                animates <strong>out</strong> when it enters the viewport.
+                The animation plays backwards on entry</td
+              >
+              <td>boolean (presence)</td>
+              <td>&mdash;</td>
+            </tr>
+            <tr>
               <td><code>data-animate-repeat</code></td>
               <td
                 >Whether the animation replays each time the element re-enters
@@ -412,6 +422,30 @@ import &#123; Animate &#125; from 'astro-animations';
       </p>
     </section>
 
+    <!-- ============ Reverse ============ -->
+    <section class="flow">
+      <h2>Reverse Animations</h2>
+      <p>
+        Add <code>data-animate-reverse</code> to make an element start visible
+        and animate <strong>out</strong> when it enters the viewport. The
+        animation plays backwards on entry, so the element dismisses itself.
+      </p>
+      <pre><code>&lt;!-- Data attribute --&gt;
+&lt;div data-animate="slide" data-animate-direction="up" data-animate-reverse&gt;
+  Slides up and fades out on scroll
+&lt;/div&gt;
+
+&lt;!-- Component --&gt;
+&lt;Animate type="fade" reverse&gt;
+  Fades out on scroll
+&lt;/Animate&gt;</code></pre>
+      <p>
+        Works with all 7 animation types. The same <code>duration</code>,
+        <code>easing</code>, and <code>intensity</code> settings apply &mdash;
+        the animation simply plays backwards.
+      </p>
+    </section>
+
     <!-- ============ Components ============ -->
     <section class="flow">
       <h2>Astro Components</h2>
@@ -498,6 +532,12 @@ import &#123; Animate &#125; from 'astro-animations';
               <td>Starting opacity</td>
               <td>number (0&ndash;1)</td>
               <td><code>0</code></td>
+            </tr>
+            <tr>
+              <td><code>reverse</code></td>
+              <td>Play the animation in reverse on viewport entry</td>
+              <td>boolean</td>
+              <td><code>false</code></td>
             </tr>
             <tr>
               <td><code>repeat</code></td>

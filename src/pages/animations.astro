@@ -30,8 +30,8 @@ const meta = {
           <p>Simple opacity transition</p>
         </div>
         <div class="demo-card" data-animate="slide" data-animate-direction="up">
-          <h3>Slide Up</h3>
-          <p>Translates in from below</p>
+          <h3>Slide</h3>
+          <p>Translates in from below, above, left or right</p>
         </div>
         <div class="demo-card" data-animate="bounce">
           <h3>Bounce</h3>
@@ -306,11 +306,71 @@ const meta = {
       </ScrollEffect>
     </section>
 
-    <!-- ============ 9. Image Animations ============ -->
+    <!-- ============ 9. Reverse Animations ============ -->
+    <section class="flow">
+      <h2 data-animate="fade">Reverse Animations</h2>
+      <p data-animate="fade">
+        Elements start visible and animate <strong>out</strong> when they enter the
+        viewport — the animation plays in reverse.
+      </p>
+
+      <div
+        class="demo-card"
+        data-animate="slide"
+        data-animate-direction="up"
+        data-animate-reverse
+      >
+        <h3>Slide Out (Up)</h3>
+        <p>Slides up and fades out on scroll</p>
+      </div>
+
+      <div class="demo-card" data-animate="fade" data-animate-reverse>
+        <h3>Fade Out</h3>
+        <p>Fades out on scroll</p>
+      </div>
+
+      <div
+        class="demo-card"
+        data-animate="zoom"
+        data-animate-threshold={1}
+        data-animate-reverse
+        data-animate-repeat="every"
+      >
+        <h3>Zoom Out</h3>
+        <p>Scales down on scroll</p>
+      </div>
+
+      <Animate type="flip" direction="left" reverse>
+        <div class="demo-card">
+          <h3>Flip Out (Left)</h3>
+          <p>Using &lt;Animate&gt; with reverse prop</p>
+        </div>
+      </Animate>
+    </section>
+
+    <!-- ============ 10. Image Animations ============ -->
     <section class="flow">
       <h2 data-animate="fade">Image Animations</h2>
 
       <div class="grid" data-layout="thirds" data-animate-stagger="150">
+        <div data-animate="zoom">
+          <Image src={panda} alt="Panda" quality={50} />
+        </div>
+        <div data-animate="slide" data-animate-direction="up">
+          <Image src={panda} alt="Panda" quality={50} />
+        </div>
+        <div data-animate="flip" data-animate-direction="right">
+          <Image src={panda} alt="Panda" quality={50} />
+        </div>
+        <div data-animate="zoom">
+          <Image src={panda} alt="Panda" quality={50} />
+        </div>
+        <div data-animate="slide" data-animate-direction="up">
+          <Image src={panda} alt="Panda" quality={50} />
+        </div>
+        <div data-animate="flip" data-animate-direction="right">
+          <Image src={panda} alt="Panda" quality={50} />
+        </div>
         <div data-animate="zoom">
           <Image src={panda} alt="Panda" quality={50} />
         </div>

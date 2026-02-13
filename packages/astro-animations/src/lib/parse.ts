@@ -38,6 +38,7 @@ export function parseAnimateConfig(el: HTMLElement) {
       el.dataset.animateOpacity !== undefined
         ? Number(el.dataset.animateOpacity)
         : DEFAULTS.startOpacity,
+    reverse: el.hasAttribute('data-animate-reverse'),
     repeat: repeat === 'every' ? 'every' : 'once',
     threshold: Number(el.dataset.animateThreshold) || DEFAULTS.threshold,
   };

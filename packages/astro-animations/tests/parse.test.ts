@@ -164,6 +164,18 @@ describe('parseAnimateConfig', () => {
     );
     expect(config?.threshold).toBe(0.5);
   });
+
+  it('defaults reverse to false when data-animate-reverse is absent', () => {
+    const config = parseAnimateConfig(makeEl({ animate: 'fade' }));
+    expect(config?.reverse).toBe(false);
+  });
+
+  it('returns reverse: true when data-animate-reverse is present', () => {
+    const el = makeEl({ animate: 'slide' });
+    el.setAttribute('data-animate-reverse', '');
+    const config = parseAnimateConfig(el);
+    expect(config?.reverse).toBe(true);
+  });
 });
 
 // ---------------------------------------------------------------------------

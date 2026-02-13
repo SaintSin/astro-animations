@@ -127,6 +127,33 @@ test('prefers-reduced-motion: in-viewport elements get opacity:1 directly', asyn
 });
 
 // ---------------------------------------------------------------------------
+// Reverse (exit animations)
+// ---------------------------------------------------------------------------
+
+test('reverse element starts visible (opacity 1) before animating', async ({
+  page,
+}) => {
+  await page.goto('/animations');
+  const el = page.locator('[data-animate-reverse]').first();
+  // Reverse elements start visible — CSS sets opacity: 1
+  const opacity = await el.evaluate(
+    (el) => window.getComputedStyle(el as HTMLElement).opacity,
+  );
+  expect(opacity).toBe('1');
+});
+
+test('reverse element gets is-animating when scrolled into view', async ({
+  page,
+}) => {
+  await page.goto('/animations');
+  const el = page.locator('[data-animate-reverse]').first();
+
+  // Scroll to it — should trigger the reverse animation on entry
+  await el.scrollIntoViewIfNeeded();
+  await expect(el).toHaveClass(/is-animating/);
+});
+
+// ---------------------------------------------------------------------------
 // CSS Scroll Timeline (ScrollEffect)
 // ---------------------------------------------------------------------------
 

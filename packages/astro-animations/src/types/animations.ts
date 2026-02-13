@@ -74,6 +74,7 @@ export interface AnimateConfig {
   easing: AnimateEasing;
   intensity: AnimateIntensity;
   startOpacity: number;
+  reverse: boolean;
   repeat: AnimateRepeat;
   threshold: number;
 }

@@ -45,6 +45,17 @@
     opacity: var(--animate-start-opacity);
   }
 
+  /* Reverse elements start visible — they animate OUT on entry */
+  [data-animate-ready] [data-animate][data-animate-reverse] {
+    opacity: 1;
+  }
+
+  /* Play animation backwards and hold end state (hidden/transformed) */
+  [data-animate-ready] [data-animate][data-animate-reverse].is-animating {
+    animation-direction: reverse;
+    animation-fill-mode: forwards;
+  }
+
   /* 3D perspective for flip/fold is applied via perspective() in keyframes
      rather than the perspective property, which only affects children. */
 
