@@ -6,6 +6,11 @@ import {
   VALID_TYPES,
 } from './constants.ts';
 
+/** Clamp offset to 0–100 (viewport %). */
+function clampOffset(n: number): number {
+  return Math.max(0, Math.min(100, n));
+}
+
 export function parseAnimateConfig(el: HTMLElement) {
   const type = el.dataset.animate;
   if (!type || !VALID_TYPES.has(type)) return null;
@@ -41,6 +46,7 @@ export function parseAnimateConfig(el: HTMLElement) {
     reverse: el.hasAttribute('data-animate-reverse'),
     repeat: repeat === 'every' ? 'every' : 'once',
     threshold: Number(el.dataset.animateThreshold) || DEFAULTS.threshold,
+    offset: clampOffset(Number(el.dataset.animateOffset) || DEFAULTS.offset),
   };
 }
 

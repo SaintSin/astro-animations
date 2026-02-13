@@ -1,5 +1,41 @@
 # Changelog
 
+## 2026-02-13 — Reverse animations & viewport offset
+
+### Added
+
+- **Reverse animations** — `data-animate-reverse` (boolean attribute) makes an
+  element start visible and animate **out** when it enters the viewport.
+  Uses `animation-direction: reverse` with `animation-fill-mode: forwards` — no
+  extra keyframes needed. Works with all 7 animation types.
+  Also available as the `reverse` prop on `<Animate>`.
+
+- **Viewport offset** — `data-animate-offset` (0–100) controls where in the
+  viewport the animation triggers. The value is a percentage from the bottom
+  edge: `50` triggers at the vertical centre. Implemented via `rootMargin` on
+  the `IntersectionObserver`. Also available as the `offset` prop on `<Animate>`.
+
+- **Reset observer for reverse+repeat** — Reverse elements with
+  `repeat="every"` use a dedicated `IntersectionObserver` at threshold 0 so
+  `is-animating` is only removed when the element is completely out of the
+  viewport, preventing a mid-animation snap-back.
+
+- Unit tests for `reverse` parsing (2 tests) and `offset` parsing (3 tests) —
+  total now 59 across 3 files
+- E2e tests for reverse (2 Playwright tests)
+- Demo section on `animations.astro` — reverse animations with offset
+- Documentation rows for `data-animate-reverse`, `data-animate-offset`,
+  `reverse` prop, and `offset` prop
+
+### Changed
+
+- Observer cache key changed from `threshold` (number) to
+  `threshold:rootMargin` (string) to support per-element viewport offsets
+- `AnimateConfig` interface gained `reverse: boolean` and `offset: number`
+- `DEFAULTS` gained `offset: 0`
+
+---
+
 ## 2026-02-11 — Testing infrastructure
 
 ### Added

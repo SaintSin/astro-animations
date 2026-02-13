@@ -319,14 +319,20 @@ const meta = {
         data-animate="slide"
         data-animate-direction="up"
         data-animate-reverse
+        data-animate-offset="50"
       >
         <h3>Slide Out (Up)</h3>
-        <p>Slides up and fades out on scroll</p>
+        <p>Slides up and fades out at viewport centre</p>
       </div>
 
-      <div class="demo-card" data-animate="fade" data-animate-reverse>
+      <div
+        class="demo-card"
+        data-animate="fade"
+        data-animate-reverse
+        data-animate-offset="50"
+      >
         <h3>Fade Out</h3>
-        <p>Fades out on scroll</p>
+        <p>Fades out at viewport centre</p>
       </div>
 
       <div
@@ -340,7 +346,7 @@ const meta = {
         <p>Scales down on scroll</p>
       </div>
 
-      <Animate type="flip" direction="left" reverse>
+      <Animate type="flip" direction="left" reverse offset={50}>
         <div class="demo-card">
           <h3>Flip Out (Left)</h3>
           <p>Using &lt;Animate&gt; with reverse prop</p>

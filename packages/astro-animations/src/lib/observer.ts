@@ -7,12 +7,40 @@ import {
 import { parseAnimateConfig, parseStaggerConfig } from './parse.ts';
 
 const allObservers: IntersectionObserver[] = [];
-const thresholdCache = new Map<number, IntersectionObserver>();
+const observerCache = new Map<string, IntersectionObserver>();
 let repeatElements = new Set<HTMLElement>();
 let animatedElements = new Set<HTMLElement>();
 
-function getOrCreateObserver(threshold: number): IntersectionObserver {
-  const existing = thresholdCache.get(threshold);
+/**
+ * Reset observer for reverse+repeat elements.
+ * Fires at threshold 0 so `is-animating` is only removed when
+ * the element is completely out of the viewport.
+ */
+let resetObserver: IntersectionObserver | null = null;
+
+function getResetObserver(): IntersectionObserver {
+  if (resetObserver) return resetObserver;
+  resetObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) {
+          (entry.target as HTMLElement).classList.remove('is-animating');
+        }
+      }
+    },
+    { threshold: 0 },
+  );
+  allObservers.push(resetObserver);
+  return resetObserver;
+}
+
+function getOrCreateObserver(
+  threshold: number,
+  offset: number,
+): IntersectionObserver {
+  const rootMargin = offset ? `0px 0px -${offset}% 0px` : '0px';
+  const key = `${threshold}:${rootMargin}`;
+  const existing = observerCache.get(key);
   if (existing) return existing;
 
   const observer = new IntersectionObserver(
@@ -26,15 +54,18 @@ function getOrCreateObserver(threshold: number): IntersectionObserver {
           listenForAnimationEnd(el);
           animatedElements.add(el);
           if (!repeatElements.has(el)) observer.unobserve(el);
-        } else if (repeatElements.has(el)) {
+        } else if (
+          repeatElements.has(el) &&
+          !el.hasAttribute('data-animate-reverse')
+        ) {
           el.classList.remove('is-animating');
         }
       }
     },
-    { threshold },
+    { threshold, rootMargin },
   );
 
-  thresholdCache.set(threshold, observer);
+  observerCache.set(key, observer);
   allObservers.push(observer);
   return observer;
 }
@@ -110,15 +141,19 @@ function initInViewAnimations(): void {
     const config = parseAnimateConfig(el);
     if (!config) continue;
     applyAnimationProperties(el, config);
-    if (config.repeat === 'every') repeatElements.add(el);
-    getOrCreateObserver(config.threshold).observe(el);
+    if (config.repeat === 'every') {
+      repeatElements.add(el);
+      if (config.reverse) getResetObserver().observe(el);
+    }
+    getOrCreateObserver(config.threshold, config.offset).observe(el);
   }
 }
 
 function destroyInViewAnimations(): void {
   for (const observer of allObservers) observer.disconnect();
   allObservers.length = 0;
-  thresholdCache.clear();
+  observerCache.clear();
+  resetObserver = null;
   repeatElements = new Set();
   animatedElements = new Set();
   const allAnimated = document.querySelectorAll<HTMLElement>('[data-animate]');

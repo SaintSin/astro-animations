@@ -176,6 +176,29 @@ describe('parseAnimateConfig', () => {
     const config = parseAnimateConfig(el);
     expect(config?.reverse).toBe(true);
   });
+
+  it('defaults offset to 0 when not specified', () => {
+    const config = parseAnimateConfig(makeEl({ animate: 'fade' }));
+    expect(config?.offset).toBe(DEFAULTS.offset);
+  });
+
+  it('parses a numeric offset', () => {
+    const config = parseAnimateConfig(
+      makeEl({ animate: 'fade', animateOffset: '50' }),
+    );
+    expect(config?.offset).toBe(50);
+  });
+
+  it('clamps offset to 0–100 range', () => {
+    const over = parseAnimateConfig(
+      makeEl({ animate: 'fade', animateOffset: '150' }),
+    );
+    expect(over?.offset).toBe(100);
+    const under = parseAnimateConfig(
+      makeEl({ animate: 'fade', animateOffset: '-20' }),
+    );
+    expect(under?.offset).toBe(0);
+  });
 });
 
 // ---------------------------------------------------------------------------

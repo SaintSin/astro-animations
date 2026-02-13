@@ -77,6 +77,7 @@ export interface AnimateConfig {
   reverse: boolean;
   repeat: AnimateRepeat;
   threshold: number;
+  offset: number;
 }
 
 /** Stagger configuration for parent containers */

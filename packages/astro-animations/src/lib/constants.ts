@@ -8,6 +8,7 @@ export const DEFAULTS = {
   startOpacity: 0,
   repeat: 'once',
   threshold: 0.2,
+  offset: 0,
 } as const;
 
 export const INTENSITY_PRESETS: Record<string, number> = {

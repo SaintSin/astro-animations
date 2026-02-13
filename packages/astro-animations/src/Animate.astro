@@ -33,6 +33,8 @@ interface Props {
   repeat?: AnimateRepeat;
   /** Intersection threshold (0–1) */
   threshold?: number;
+  /** Viewport offset — percentage from the bottom edge (0–100) */
+  offset?: number;
   /** Additional CSS class */
   class?: string;
   [key: string]: unknown;
@@ -50,6 +52,7 @@ const {
   reverse,
   repeat,
   threshold,
+  offset,
   class: className,
   ...rest
 } = Astro.props;
@@ -66,6 +69,7 @@ const dataAttrs: Record<string, string | undefined> = {
   'data-animate-reverse': reverse ? '' : undefined,
   'data-animate-repeat': repeat,
   'data-animate-threshold': threshold?.toString(),
+  'data-animate-offset': offset?.toString(),
 };
 
 const cleanAttrs = Object.fromEntries(
