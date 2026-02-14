@@ -30,18 +30,17 @@ const meta = {
           <pre><code>pnpm install astro-animations</code><br /> or <br /><code>npm install astro-animations</code></pre>
         </li>
         <li>
-          Add <code>&lt;AstroAnimations /&gt;</code> to your base layout — it injects
-          all required CSS and the runtime script:
+          Add <code>&lt;AstroAnimations /&gt;</code> to your base layout, just before
+          <code>&lt;/body&gt;</code> — it injects all required CSS and the runtime script:
           <pre><code>&#45;&#45;&#45;
 import &#123; AstroAnimations &#125; from 'astro-animations';
 &#45;&#45;&#45;
 
 &lt;html&gt;
-  &lt;head&gt;
-    &lt;AstroAnimations /&gt;
-  &lt;/head&gt;
+  &lt;head&gt;...&lt;/head&gt;
   &lt;body&gt;
     &lt;slot /&gt;
+    &lt;AstroAnimations /&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
         </li>
@@ -50,7 +49,7 @@ import &#123; AstroAnimations &#125; from 'astro-animations';
           into view:
           <pre><code>&lt;h2 data-animate="fade"&gt;Hello&lt;/h2&gt;
 
-&lt;div data-animate="slide" data-animate-direction="left" easing="spring"&gt;
+&lt;div data-animate="slide" data-animate-direction="left" data-animate-easing="spring"&gt;
     &lt;p&gt;Slides in from the left with spring easing&lt;/p&gt;
 &lt;/div&gt;</code></pre>
         </li>

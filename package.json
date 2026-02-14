@@ -11,7 +11,9 @@
     "astro",
     "astro-component",
     "animation",
-    "lightweight"
+    "animations",
+    "lightweight",
+    "withastro"
   ],
   "scripts": {
     "dev": "astro dev",
