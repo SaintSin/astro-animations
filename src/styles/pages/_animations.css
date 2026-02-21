@@ -1,0 +1,5 @@
+/* Styles specific to the animations page */
+
+section {
+  padding-block-start: var(--space-3xl);
+}

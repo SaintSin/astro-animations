@@ -1,5 +1,51 @@
 # Changelog
 
+## 2026-02-21 — Custom animations & CSS consolidation
+
+### Added
+
+- **Custom animations support** — Users can now define their own `@keyframes` and
+  trigger them via `data-animate="custom-name"`. No package modifications needed.
+  Parser now accepts any animation type string. Documented with full example on
+  new `/custom-animations` demo page showing `mask-reveal` clip-path animation.
+
+- **Custom animation demo page** (`pages/custom-animations.astro`) — Comprehensive
+  guide with live examples, code snippets, customization patterns, and best
+  practices. Uses `<style is:global>` pattern for extensibility.
+
+- **Centralized page styles** — Created `/styles/pages/` directory with 6 reusable
+  CSS files:
+  - `_code-blocks.css` — Code and pre block styling
+  - `_demo-cards.css` — Reusable `.demo-card` component
+  - `_typography.css` — Section, list, and image styling
+  - `_custom-animations.css` — Demo container and mask-reveal styles
+  - `_documentation.css` — Table, code, and documentation layout
+  - `_animations.css` — Page-specific section padding
+
+### Changed
+
+- All pages now import shared CSS from `/styles/pages/` instead of inline styles,
+  reducing CSS duplication and improving maintainability.
+
+- Page-specific styles moved from inline `<style>` blocks to centralized files
+  (`custom-animations.astro`, `animations.astro`, `documentation.astro`).
+
+- Refactored all CSS values to use Utopia design tokens:
+  - `var(--step--1)` to `var(--step-6)` for font sizes (removed hardcoded
+    `0.875rem`, `1.5rem` fallbacks)
+  - `var(--space-3xs)` to `var(--space-3xl)` for all spacing (padding, margin, gap)
+
+- Parser test updated — now correctly tests that custom animation types are
+  accepted (e.g., `'spin'` returns valid config, not `null`)
+
+### Removed
+
+- Removed custom animation mappings from `astro-animations.astro` core package —
+  custom animations are now entirely user-scoped via page-level CSS using
+  `<style is:global>`.
+
+---
+
 ## 2026-02-13 — Reverse animations & viewport offset
 
 ### Added

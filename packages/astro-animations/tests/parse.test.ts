@@ -20,9 +20,14 @@ describe('parseAnimateConfig', () => {
     expect(parseAnimateConfig(document.createElement('div'))).toBeNull();
   });
 
-  it('returns null for an unrecognised animation type', () => {
-    expect(parseAnimateConfig(makeEl({ animate: 'spin' }))).toBeNull();
+  it('returns null when data-animate is empty', () => {
     expect(parseAnimateConfig(makeEl({ animate: '' }))).toBeNull();
+  });
+
+  it('accepts custom animation types (for user-defined @keyframes)', () => {
+    const config = parseAnimateConfig(makeEl({ animate: 'spin' }));
+    expect(config).not.toBeNull();
+    expect(config?.type).toBe('spin');
   });
 
   it('returns a config object for each valid animation type', () => {

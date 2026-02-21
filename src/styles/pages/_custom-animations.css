@@ -1,0 +1,15 @@
+/* Styles specific to the custom-animations page */
+
+.demo-container {
+  padding: var(--space-m);
+  background: var(--gray-1, #f5f5f5);
+  border-radius: var(--radius-2, 0.5rem);
+  margin-block: var(--space-m);
+}
+
+.mask-reveal-text {
+  font-weight: 700;
+  font-size: var(--step-1);
+  line-height: 1.2;
+  color: var(--gray-9, #1a1a2e);
+}

@@ -5,6 +5,8 @@ import { Image } from 'astro:assets';
 import panda from '@images/panda-01.jpg';
 import Layout from '@layouts/BaseLayout.astro';
 import { Animate, ScrollEffect } from 'astro-animations';
+import '@styles/pages/_demo-cards.css';
+import '@styles/pages/_typography.css';
 
 const meta = {
   title: 'PandaMotion: An Animation Library for Astro',
@@ -386,72 +388,50 @@ const pandaFacts: string[] = [
 </Layout>
 
 <style>
-  .demo-card {
-    background: var(--color-surface);
-    border: 1px solid var(--gray-3, #ddd);
-    border-radius: var(--radius-2, 0.5rem);
-    padding: var(--space-m, 1.5rem);
-    min-height: 8rem;
-    display: grid;
-    place-content: center;
-    text-align: center;
-  }
-
-  .demo-card h3 {
-    margin-block-end: var(--space-3xs, 0.25rem);
-  }
-
-  .demo-card p {
-    font-size: var(--step--1, 0.875rem);
-    opacity: 0.7;
-  }
-
-  .demo-card code {
-    font-size: var(--step--1, 0.875rem);
-    background: var(--gray-2, #eee);
-    padding-inline: 0.25em;
-    border-radius: 0.2em;
-  }
-
-  section {
-    padding-block: var(--space-l, 2rem);
-  }
-
   .title > * {
     display: inline-block;
     font-size: calc(var(--step-6) * 2);
     font-weight: var(--font-weight-9);
   }
+
   .title h1 {
     color: var(--red-8);
   }
+
   .title h2 {
     color: var(--yellow-8);
   }
-  ul#pandaFacts {
+
+  #pandaFacts {
     list-style-type: none;
     padding: 0;
-    li {
-      max-width: 40ch;
-      background: var(--yellow-3);
-      margin: 2ch;
-      padding: 4ch;
-      text-align: center;
-    }
-    li:nth-child(5n + 1) {
-      border-radius: var(--radius-blob-1);
-    }
-    li:nth-child(5n + 2) {
-      border-radius: var(--radius-blob-2);
-    }
-    li:nth-child(5n + 3) {
-      border-radius: var(--radius-blob-3);
-    }
-    li:nth-child(5n + 4) {
-      border-radius: var(--radius-blob-4);
-    }
-    li:nth-child(5n + 5) {
-      border-radius: var(--radius-blob-5);
-    }
+  }
+
+  #pandaFacts li {
+    max-width: 40ch;
+    background: var(--yellow-3);
+    margin: var(--space-s);
+    padding: var(--space-m);
+    text-align: center;
+  }
+
+  #pandaFacts li:nth-child(5n + 1) {
+    border-radius: var(--radius-blob-1);
+  }
+
+  #pandaFacts li:nth-child(5n + 2) {
+    border-radius: var(--radius-blob-2);
+  }
+
+  #pandaFacts li:nth-child(5n + 3) {
+    border-radius: var(--radius-blob-3);
+  }
+
+  #pandaFacts li:nth-child(5n + 4) {
+    border-radius: var(--radius-blob-4);
+  }
+
+  #pandaFacts li:nth-child(5n + 5) {
+    border-radius: var(--radius-blob-5);
   }
 </style>

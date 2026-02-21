@@ -1,0 +1,36 @@
+/* Styles specific to the documentation page */
+
+.docs {
+  padding-block-end: var(--space-xl);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step--1);
+}
+
+th,
+td {
+  text-align: left;
+  padding: var(--space-3xs) var(--space-xs);
+  border-block-end: 1px solid var(--gray-3, #ddd);
+}
+
+th {
+  font-weight: 700;
+  background: var(--gray-1, #f5f5f5);
+}
+
+td:first-child,
+td:last-child {
+  white-space: nowrap;
+}
+
+h3 {
+  margin-block-start: var(--space-m);
+}

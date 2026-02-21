@@ -5,6 +5,9 @@ import { Image } from 'astro:assets';
 import panda from '@images/panda-01.jpg';
 import Layout from '@layouts/BaseLayout.astro';
 import { Animate, ScrollEffect } from 'astro-animations';
+import '@styles/pages/_demo-cards.css';
+import '@styles/pages/_animations.css';
+import '@styles/pages/_typography.css';
 
 const meta = {
   title: 'PandaMotion: An Animation Library for Astro',
@@ -389,42 +392,4 @@ const meta = {
       </div>
     </section>
   </main>
-
-  <style>
-    .demo-card {
-      background: var(--color-surface);
-      border: 1px solid var(--gray-3, #ddd);
-      border-radius: var(--radius-2, 0.5rem);
-      padding: var(--space-m, 1.5rem);
-      min-height: 8rem;
-      display: grid;
-      place-content: center;
-      text-align: center;
-    }
-
-    .demo-card h3 {
-      margin-block-end: var(--space-3xs, 0.25rem);
-    }
-
-    .demo-card p {
-      font-size: var(--step--1, 0.875rem);
-      opacity: 0.7;
-    }
-
-    .demo-card code {
-      font-size: var(--step--1, 0.875rem);
-      background: var(--gray-2, #eee);
-      padding-inline: 0.25em;
-      border-radius: 0.2em;
-    }
-
-    section {
-      padding-block: var(--space-l, 2rem);
-      padding-block-start: var(--space-3xl);
-    }
-
-    img {
-      border-radius: var(--radius-2, 0.5rem);
-    }
-  </style>
 </Layout>

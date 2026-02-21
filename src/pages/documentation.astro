@@ -2,6 +2,9 @@
 // pages/documentation.astro
 
 import Layout from '@layouts/BaseLayout.astro';
+import '@styles/pages/_code-blocks.css';
+import '@styles/pages/_documentation.css';
+import '@styles/pages/_typography.css';
 
 const meta = {
   title: 'Documentation — PandaMotion ',
@@ -720,72 +723,3 @@ import &#123; ScrollEffect &#125; from 'astro-animations';
   </main>
 </Layout>
 
-<style>
-  .docs {
-    padding-block-end: var(--space-xl, 3rem);
-  }
-
-  section {
-    padding-block: var(--space-l, 2rem);
-  }
-
-  pre {
-    background: var(--gray-9, #1a1a2e);
-    color: var(--gray-1, #eee);
-    padding: var(--space-s, 1rem);
-    border-radius: var(--radius-2, 0.5rem);
-    overflow-x: auto;
-    font-size: var(--step--1, 0.875rem);
-    line-height: 1.6;
-  }
-
-  code {
-    font-size: var(--step--1, 0.875rem);
-  }
-
-  :not(pre) > code {
-    background: var(--gray-2, #eee);
-    padding-inline: 0.3em;
-    border-radius: 0.2em;
-  }
-
-  .table-wrap {
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: var(--step--1, 0.875rem);
-  }
-
-  th,
-  td {
-    text-align: left;
-    padding: var(--space-3xs, 0.25rem) var(--space-xs, 0.5rem);
-    border-block-end: 1px solid var(--gray-3, #ddd);
-  }
-
-  th {
-    font-weight: 700;
-    background: var(--gray-1, #f5f5f5);
-  }
-
-  td:first-child,
-  td:last-child {
-    white-space: nowrap;
-  }
-
-  h3 {
-    margin-block-start: var(--space-m, 1.5rem);
-  }
-
-  ul,
-  ol {
-    padding-inline-start: 1.5em;
-  }
-
-  li {
-    margin-block-end: var(--space-3xs, 0.25rem);
-  }
-</style>
