@@ -1,6 +1,6 @@
 {
   "name": "astro-animations",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "description": "A lightweight animation integration for Astro, using modern CSS. Dependency free, <7kB compressed.",
   "author": {
