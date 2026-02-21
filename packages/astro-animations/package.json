@@ -2,7 +2,7 @@
   "name": "astro-animations",
   "version": "0.0.4",
   "type": "module",
-  "description": "Lightweight animation components for Astro",
+  "description": "A lightweight animation integration for Astro, using modern CSS. Dependency free, <7kB compressed.",
   "author": {
     "name": "StJohn Mackay",
     "url": "https://github.com/SaintSin"

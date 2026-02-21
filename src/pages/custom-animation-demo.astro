@@ -1,0 +1,199 @@
+---
+import Layout from '@layouts/BaseLayout.astro';
+
+const meta = {
+  title: 'Custom Animation Demo — PandaMotion',
+  description: 'Example of using custom @keyframes with data-animate',
+  imageOG: 'generic-social-1200x630.png',
+  altOG: 'Custom Animation',
+};
+---
+
+<Layout metaData={meta}>
+  <main class="wrapper flow">
+    <h1>Custom Animations</h1>
+    <p>
+      You're not limited to the 7 built-in animation types. Use
+      <code>data-animate</code> with your own <code>@keyframes</code> to create custom
+      effects. The IntersectionObserver system handles timing and triggering automatically.
+    </p>
+
+    <!-- ============ Mask Reveal ============ -->
+    <section class="flow">
+      <h2>Mask Reveal Animation</h2>
+      <p>
+        This example uses a custom <code>@keyframes mask-reveal</code> with CSS
+        <code>clip-path</code> to create a sliding mask effect. Perfect for dramatic
+        text reveals.
+      </p>
+
+      <!-- Demo -->
+      <div class="demo-container">
+        <h3
+          data-animate="mask-reveal"
+          class="mask-reveal-text"
+          data-animate-duration="1700"
+        >
+          Revealed on scroll
+        </h3>
+        <p
+          data-animate="mask-reveal"
+          class="mask-reveal-text"
+          data-animate-duration="1700"
+        >
+          This text slides in behind a moving mask. The effect is pure CSS —
+          clip-path animates while the text stays static.
+        </p>
+      </div>
+
+      <!-- Code -->
+      <h3>How to use it</h3>
+      <p>
+        Add the custom <code>@keyframes</code> to your stylesheet, then use
+        <code>data-animate</code> to trigger it:
+      </p>
+      <pre><code>&lt;!-- HTML --&gt;
+&lt;h2 data-animate="mask-reveal" class="mask-reveal-text"&gt;
+  Revealed on scroll
+&lt;/h2&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+  @keyframes mask-reveal &#123;
+    from &#123;
+      clip-path: inset(0 100% 0 0);
+    &#125;
+    to &#123;
+      clip-path: inset(0 0 0 0);
+    &#125;
+  &#125;
+
+  .mask-reveal-text &#123;
+    /* Customize these */
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #000;
+  &#125;
+&lt;/style&gt;</code></pre>
+
+      <h3>Customization</h3>
+      <p>
+        Use <code>data-animate-duration</code>,
+        <code>data-animate-delay</code>, and
+        <code>data-animate-easing</code> to fine-tune the effect:
+      </p>
+      <pre><code>&lt;h2
+  data-animate="mask-reveal"
+  class="mask-reveal-text"
+  data-animate-duration="1200"
+  data-animate-easing="ease-out-3"
+&gt;
+  Custom timing
+&lt;/h2&gt;</code></pre>
+
+      <div class="demo-container" style="margin-top: 3rem;">
+        <h3
+          data-animate="mask-reveal"
+          class="mask-reveal-text"
+          data-animate-duration="1700"
+          data-animate-easing="ease-out-3"
+        >
+          Reveal with easing
+        </h3>
+      </div>
+    </section>
+
+
+    <!-- ============ Tips ============ -->
+    <section class="flow">
+      <h2>Tips for Custom Animations</h2>
+      <ul>
+        <li>
+          <strong>Use meaningful names:</strong>
+          <code>data-animate="mask-reveal"</code> is self-documenting
+        </li>
+        <li>
+          <strong>Keep keyframes simple:</strong> Complex animations are heavier for
+          the browser to compute
+        </li>
+        <li>
+          <strong>Combine with built-in props:</strong>
+          <code>data-animate-duration</code>,
+          <code>data-animate-easing</code>, and
+          <code>data-animate-delay</code> all work with custom keyframes
+        </li>
+        <li>
+          <strong>Test performance:</strong> Use DevTools to check frame rate on low-end
+          devices
+        </li>
+        <li>
+          <strong>Respect prefers-reduced-motion:</strong> Custom animations are automatically
+          disabled in the <code>@media (prefers-reduced-motion: reduce)</code>
+          block injected by <code>&lt;AstroAnimations /&gt;</code>
+        </li>
+      </ul>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .demo-container {
+    padding: 2rem;
+    background: var(--gray-1, #f5f5f5);
+    border-radius: 0.5rem;
+    margin-block: 1.5rem;
+  }
+
+  /* Mask reveal text styling */
+  .mask-reveal-text {
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    color: var(--gray-9, #1a1a2e);
+  }
+
+  pre {
+    background: var(--gray-9, #1a1a2e);
+    color: var(--gray-1, #eee);
+    padding: var(--space-s, 1rem);
+    border-radius: var(--radius-2, 0.5rem);
+    overflow-x: auto;
+    font-size: var(--step--1, 0.875rem);
+    line-height: 1.6;
+  }
+
+  code {
+    font-size: var(--step--1, 0.875rem);
+  }
+
+  :not(pre) > code {
+    background: var(--gray-2, #eee);
+    padding-inline: 0.3em;
+    border-radius: 0.2em;
+  }
+
+  ul {
+    padding-inline-start: 1.5em;
+  }
+
+  li {
+    margin-block-end: var(--space-3xs, 0.25rem);
+  }
+</style>
+
+<style is:global>
+  /* Custom animation: mask-reveal
+     Map the animation name and define the keyframes */
+  [data-animate="mask-reveal"].is-animating {
+    animation-name: mask-reveal;
+  }
+
+  @keyframes mask-reveal {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+</style>

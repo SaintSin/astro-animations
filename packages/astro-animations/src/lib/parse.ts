@@ -3,7 +3,6 @@ import {
   VALID_DIRECTIONS,
   VALID_EASINGS,
   VALID_INTENSITIES,
-  VALID_TYPES,
 } from './constants.ts';
 
 /** Clamp offset to 0–100 (viewport %). */
@@ -13,7 +12,8 @@ function clampOffset(n: number): number {
 
 export function parseAnimateConfig(el: HTMLElement) {
   const type = el.dataset.animate;
-  if (!type || !VALID_TYPES.has(type)) return null;
+  if (!type) return null;
+  /* Allow both built-in and custom animation types (custom @keyframes) */
 
   const dir = el.dataset.animateDirection;
   const easing = el.dataset.animateEasing;
