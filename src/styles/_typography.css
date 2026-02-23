@@ -16,3 +16,7 @@ li {
 img {
   border-radius: var(--radius-2, 0.5rem);
 }
+
+h3 {
+  margin-block-start: var(--space-m);
+}

@@ -1,10 +1,10 @@
 ---
 // pages/documentation.astro
 
+import { Code } from 'astro:components';
 import Layout from '@layouts/BaseLayout.astro';
-import '@styles/pages/_code-blocks.css';
-import '@styles/pages/_documentation.css';
-import '@styles/pages/_typography.css';
+import '@styles/components/_code-block.css';
+import '@styles/components/_table.css';
 
 const meta = {
   title: 'Documentation — PandaMotion ',
@@ -13,6 +13,12 @@ const meta = {
   altOG: 'Documentation',
 };
 ---
+
+<style>
+  .docs {
+    padding-block-end: var(--space-xl);
+  }
+</style>
 
 <Layout metaData={meta}>
   <main class="wrapper flow docs">
@@ -30,41 +36,43 @@ const meta = {
       <ol>
         <li>
           Install the package:
-          <pre><code>pnpm install astro-animations</code><br /> or <br /><code>npm install astro-animations</code></pre>
+          <Code code="pnpm install astro-animations" lang="bash" />
+          <p style="text-align: center; margin: var(--space-3xs) 0;">or</p>
+          <Code code="npm install astro-animations" lang="bash" />
         </li>
         <li>
           Add <code>&lt;AstroAnimations /&gt;</code> to your base layout, just before
           <code>&lt;/body&gt;</code> — it injects all required CSS and the runtime script:
-          <pre><code>&#45;&#45;&#45;
-import &#123; AstroAnimations &#125; from 'astro-animations';
-&#45;&#45;&#45;
+          <Code code={`---
+import { AstroAnimations } from 'astro-animations';
+---
 
-&lt;html&gt;
-  &lt;head&gt;...&lt;/head&gt;
-  &lt;body&gt;
-    &lt;slot /&gt;
-    &lt;AstroAnimations /&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
+<html>
+  <head>...</head>
+  <body>
+    <slot />
+    <AstroAnimations />
+  </body>
+</html>`} lang="astro" />
         </li>
         <li>
           Add <code>data-animate</code> to any element — it will animate when scrolled
           into view:
-          <pre><code>&lt;h2 data-animate="fade"&gt;Hello&lt;/h2&gt;
+          <Code code={`<h2 data-animate="fade">Hello</h2>
 
-&lt;div data-animate="slide" data-animate-direction="left" data-animate-easing="spring"&gt;
-    &lt;p&gt;Slides in from the left with spring easing&lt;/p&gt;
-&lt;/div&gt;</code></pre>
+<div data-animate="slide" data-animate-direction="left" data-animate-easing="spring">
+    <p>Slides in from the left with spring easing</p>
+</div>`} lang="html" />
         </li>
         <li>
           Or use the <code>&lt;Animate&gt;</code> component for a props-based API:
-          <pre><code>&#45;&#45;&#45;
-import &#123; Animate &#125; from 'astro-animations';
-&#45;&#45;&#45;
+          <Code code={`---
+import { Animate } from 'astro-animations';
+---
 
-&lt;Animate type="slide" direction="left" easing="spring"&gt;
-  &lt;p&gt;Slides in from the left with spring easing&lt;/p&gt;
-&lt;/Animate&gt;</code></pre>
+<Animate type="slide" direction="left" easing="spring">
+  <p>Slides in from the left with spring easing</p>
+</Animate>`} lang="astro" />
         </li>
       </ol>
     </section>
@@ -421,11 +429,11 @@ import &#123; Animate &#125; from 'astro-animations';
         <code>data-animate</code> will animate sequentially with the specified delay
         between each.
       </p>
-      <pre><code>&lt;div data-animate-stagger="150" data-animate-stagger-from="first"&gt;
-  &lt;div data-animate="slide" data-animate-direction="up"&gt;1&lt;/div&gt;
-  &lt;div data-animate="slide" data-animate-direction="up"&gt;2&lt;/div&gt;
-  &lt;div data-animate="slide" data-animate-direction="up"&gt;3&lt;/div&gt;
-&lt;/div&gt;</code></pre>
+      <Code code={`<div data-animate-stagger="150" data-animate-stagger-from="first">
+  <div data-animate="slide" data-animate-direction="up">1</div>
+  <div data-animate="slide" data-animate-direction="up">2</div>
+  <div data-animate="slide" data-animate-direction="up">3</div>
+</div>`} lang="html" />
       <p>
         The <code>data-animate-stagger-from</code> attribute controls the ordering:
         <code>first</code> (default) animates top-to-bottom,
@@ -442,15 +450,15 @@ import &#123; Animate &#125; from 'astro-animations';
         and animate <strong>out</strong> when it enters the viewport. The
         animation plays backwards on entry, so the element dismisses itself.
       </p>
-      <pre><code>&lt;!-- Data attribute --&gt;
-&lt;div data-animate="slide" data-animate-direction="up" data-animate-reverse&gt;
+      <Code code={`<!-- Data attribute -->
+<div data-animate="slide" data-animate-direction="up" data-animate-reverse>
   Slides up and fades out on scroll
-&lt;/div&gt;
+</div>
 
-&lt;!-- Component --&gt;
-&lt;Animate type="fade" reverse&gt;
+<!-- Component -->
+<Animate type="fade" reverse>
   Fades out on scroll
-&lt;/Animate&gt;</code></pre>
+</Animate>`} lang="html" />
       <p>
         Works with all 7 animation types. The same <code>duration</code>,
         <code>easing</code>, and <code>intensity</code> settings apply &mdash;
@@ -467,18 +475,18 @@ import &#123; Animate &#125; from 'astro-animations';
         Declarative wrapper that renders <code>data-animate-*</code> attributes from
         props.
       </p>
-      <pre><code>&#45;&#45;&#45;
-import &#123; Animate &#125; from 'astro-animations';
-&#45;&#45;&#45;
+      <Code code={`---
+import { Animate } from 'astro-animations';
+---
 
-&lt;Animate type="slide" direction="left" easing="spring" duration={800}&gt;
-  &lt;div&gt;Content&lt;/div&gt;
-&lt;/Animate&gt;
+<Animate type="slide" direction="left" easing="spring" duration={800}>
+  <div>Content</div>
+</Animate>
 
-&lt;!-- Renders as a custom tag --&gt;
-&lt;Animate type="zoom" intensity="strong" as="article" class="card"&gt;
-  &lt;h3&gt;Title&lt;/h3&gt;
-&lt;/Animate&gt;</code></pre>
+<!-- Renders as a custom tag -->
+<Animate type="zoom" intensity="strong" as="article" class="card">
+  <h3>Title</h3>
+</Animate>`} lang="astro" />
 
       <div class="table-wrap">
         <table>
@@ -584,17 +592,17 @@ import &#123; Animate &#125; from 'astro-animations';
         Declarative wrapper for CSS scroll-linked effects. In PandaMotion, all
         scroll effects use CSS Scroll Timeline (no JS fallback).
       </p>
-      <pre><code>&#45;&#45;&#45;
-import &#123; ScrollEffect &#125; from 'astro-animations';
-&#45;&#45;&#45;
+      <Code code={`---
+import { ScrollEffect } from 'astro-animations';
+---
 
-&lt;ScrollEffect type="parallax" speed={0.5}&gt;
-  &lt;div&gt;Parallax content&lt;/div&gt;
-&lt;/ScrollEffect&gt;
+<ScrollEffect type="parallax" speed={0.5}>
+  <div>Parallax content</div>
+</ScrollEffect>
 
-&lt;ScrollEffect type="fade"&gt;
-  &lt;div&gt;Fades in with pure CSS&lt;/div&gt;
-&lt;/ScrollEffect&gt;</code></pre>
+<ScrollEffect type="fade">
+  <div>Fades in with pure CSS</div>
+</ScrollEffect>`} lang="astro" />
 
       <div class="table-wrap">
         <table>

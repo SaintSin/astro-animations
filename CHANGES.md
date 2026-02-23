@@ -13,14 +13,19 @@
   guide with live examples, code snippets, customization patterns, and best
   practices. Uses `<style is:global>` pattern for extensibility.
 
-- **Centralized page styles** — Created `/styles/pages/` directory with 6 reusable
+- **Centralized page styles** — Created `/styles/pages/` directory with 5 reusable
   CSS files:
-  - `_code-blocks.css` — Code and pre block styling
   - `_demo-cards.css` — Reusable `.demo-card` component
   - `_typography.css` — Section, list, and image styling
   - `_custom-animations.css` — Demo container and mask-reveal styles
   - `_documentation.css` — Table, code, and documentation layout
   - `_animations.css` — Page-specific section padding
+
+- **Code highlighting with Astro `<Code />` component** — Replaced all `<pre><code>`
+  blocks with Astro's built-in `<Code />` component from `astro:components` for
+  syntax highlighting with Shiki, copy-to-clipboard buttons, and improved UX.
+  Updated `documentation.astro` (8 code blocks) and `custom-animations.astro`
+  (2 code blocks).
 
 ### Changed
 
@@ -34,6 +39,9 @@
   - `var(--step--1)` to `var(--step-6)` for font sizes (removed hardcoded
     `0.875rem`, `1.5rem` fallbacks)
   - `var(--space-3xs)` to `var(--space-3xl)` for all spacing (padding, margin, gap)
+
+- Code examples in documentation now use template literals with `Code` component,
+  removing need for manual HTML entity escaping (`&#45;&#45;&#45;` → `---`, etc.).
 
 - Parser test updated — now correctly tests that custom animation types are
   accepted (e.g., `'spin'` returns valid config, not `null`)

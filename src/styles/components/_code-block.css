@@ -1,0 +1,5 @@
+/* Code block component styling (Astro's <Code /> renders as <pre>) */
+
+pre {
+  margin-block: var(--space-m);
+}

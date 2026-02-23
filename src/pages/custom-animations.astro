@@ -1,8 +1,9 @@
 ---
+import { Code } from 'astro:components';
 import Layout from '@layouts/BaseLayout.astro';
-import '@styles/pages/_code-blocks.css';
-import '@styles/pages/_custom-animations.css';
-import '@styles/pages/_typography.css';
+import '@styles/components/_code-block.css';
+import '@styles/components/_demo-container.css';
+import '@styles/components/_mask-reveal.css';
 
 const meta = {
   title: 'Custom Animation Demo — PandaMotion',
@@ -58,37 +59,37 @@ const meta = {
         then reference them with <code>data-animate</code>. The <code>is:global</code> attribute
         ensures the styles are available to the animation system.
       </p>
-      <pre><code>&lt;!-- HTML --&gt;
-&lt;h2 data-animate="mask-reveal" class="mask-reveal-text"&gt;
+      <Code code={`<!-- HTML -->
+<h2 data-animate="mask-reveal" class="mask-reveal-text">
   Revealed on scroll
-&lt;/h2&gt;
+</h2>
 
-&lt;!-- In your Astro component: --&gt;
-&lt;style is:global&gt;
+<!-- In your Astro component: -->
+<style is:global>
   /* Map animation type to keyframe name */
-  [data-animate="mask-reveal"].is-animating &#123;
+  [data-animate="mask-reveal"].is-animating {
     animation-name: mask-reveal;
-  &#125;
+  }
 
   /* Define the keyframe */
-  @keyframes mask-reveal &#123;
-    from &#123;
+  @keyframes mask-reveal {
+    from {
       clip-path: inset(0 100% 0 0);
-    &#125;
-    to &#123;
+    }
+    to {
       clip-path: inset(0 0 0 0);
-    &#125;
-  &#125;
-&lt;/style&gt;
+    }
+  }
+</style>
 
-&lt;!-- Optional: page-scoped styles for element appearance --&gt;
-&lt;style&gt;
-  .mask-reveal-text &#123;
+<!-- Optional: page-scoped styles for element appearance -->
+<style>
+  .mask-reveal-text {
     font-weight: 700;
     font-size: 1.5rem;
     color: #000;
-  &#125;
-&lt;/style&gt;</code></pre>
+  }
+</style>`} lang="astro" />
 
       <h3>Customization</h3>
       <p>
@@ -96,14 +97,14 @@ const meta = {
         <code>data-animate-delay</code>, and
         <code>data-animate-easing</code> to fine-tune the effect:
       </p>
-      <pre><code>&lt;h2
+      <Code code={`<h2
   data-animate="mask-reveal"
   class="mask-reveal-text"
   data-animate-duration="1200"
   data-animate-easing="ease-out-3"
-&gt;
+>
   Custom timing
-&lt;/h2&gt;</code></pre>
+</h2>`} lang="html" />
 
       <div class="demo-container" style="margin-top: 3rem;">
         <h3

@@ -1,8 +1,4 @@
-/* Styles specific to the documentation page */
-
-.docs {
-  padding-block-end: var(--space-xl);
-}
+/* Table component styling */
 
 .table-wrap {
   overflow-x: auto;
@@ -29,8 +25,4 @@ th {
 td:first-child,
 td:last-child {
   white-space: nowrap;
-}
-
-h3 {
-  margin-block-start: var(--space-m);
 }

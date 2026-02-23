@@ -1,0 +1,8 @@
+/* Demo container block component */
+
+.demo-container {
+  padding: var(--space-m);
+  background: var(--gray-1, #f5f5f5);
+  border-radius: var(--radius-2, 0.5rem);
+  margin-block: var(--space-m);
+}

@@ -1,0 +1,8 @@
+/* Mask reveal animation text styling component */
+
+.mask-reveal-text {
+  font-weight: 700;
+  font-size: var(--step-1);
+  line-height: 1.2;
+  color: var(--gray-9, #1a1a2e);
+}
