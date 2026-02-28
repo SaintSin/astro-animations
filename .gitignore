@@ -27,3 +27,6 @@ pnpm-debug.log*
 .claude/
 PrivateNotes/
 CLAUDE.md
+
+# Local Netlify folder
+.netlify
