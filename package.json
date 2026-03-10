@@ -30,11 +30,11 @@
     "test:e2e:ui": "pnpm build && playwright test --ui"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.6",
-    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/check": "^0.9.7",
+    "@astrojs/sitemap": "^3.7.1",
     "@felixicaza/astro-capo": "^1.0.1",
     "@iconify-json/carbon": "^1.2.19",
-    "astro": "^5.18.0",
+    "astro": "^6.0.0",
     "astro-animations": "workspace:*",
     "astro-icon": "^1.1.5",
     "open-props": "^1.7.23",

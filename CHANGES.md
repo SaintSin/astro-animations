@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-03-10 — Astro 6 compatibility
+
+### Changed
+
+- Updated peer dependency constraint in `packages/astro-animations/package.json` to support Astro 6: `astro@"^4.0.0 || ^5.0.0 || ^6.0.0"`
+- No breaking changes to package functionality — all components and CSS features are compatible with Astro 6
+
+---
+
 ## 2026-02-21 — Custom animations & CSS consolidation
 
 ### Added
