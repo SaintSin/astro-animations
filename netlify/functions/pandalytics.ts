@@ -90,7 +90,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
     fcp,
     ttfb,
     inp,
-		duration_ms,
+    duration_ms,
   } = bodyData;
 
   // Extract country from Netlify headers if not provided in data
@@ -130,7 +130,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
     INSERT INTO pageviews (
       session_id, url, path, referrer, timestamp,
       lcp, cls, fcp, ttfb, inp, duration_ms
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const sessionParams = [
@@ -155,7 +155,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
     fcp ?? null,
     ttfb ?? null,
     inp ?? null,
-		duration_ms ?? null,
+    duration_ms ?? null,
   ];
 
   // Check required environment variables
