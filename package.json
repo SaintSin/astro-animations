@@ -30,21 +30,21 @@
     "test:e2e:ui": "pnpm build && playwright test --ui"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.9",
-    "@astrojs/sitemap": "^3.7.2",
-    "@felixicaza/astro-capo": "^1.1.0",
-    "@iconify-json/carbon": "^1.2.21",
-    "astro": "^6.3.6",
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/sitemap": "^3.7.3",
+    "@felixicaza/astro-capo": "^1.2.1",
+    "@iconify-json/carbon": "^1.2.25",
+    "astro": "^7.2.4",
     "astro-animations": "workspace:*",
-    "astro-icon": "^1.1.5",
+    "astro-icon": "^1.2.0",
     "open-props": "^1.7.23",
-    "sharp": "^0.34.5",
-    "typescript": "^6.0.3"
+    "sharp": "^0.35.3",
+    "typescript": "^7.0.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.15",
-    "@playwright/test": "^1.60.0",
-    "node-gyp": "^12.3.0",
+    "@biomejs/biome": "2.5.10",
+    "@playwright/test": "^1.62.1",
+    "node-gyp": "^13.0.1",
     "postcss-jit-props": "^1.0.16"
   }
 }
