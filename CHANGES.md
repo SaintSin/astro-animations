@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-10-10 — 0.0.7: docs fixes and Astro 7
+
+### Changed
+
+- Peer dependency now includes Astro 7: `astro@"^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0"`. The package already runs on Astro 7 (this demo site is on 7.3.5, and astralcoders.com uses 0.0.6 on 7.3.8); the 60 unit tests pass
+- README: corrected the `ScrollEffect` browser support. It said Chrome 115+, Safari 18+, Firefox 133+; the Baseline data for scroll-driven animations is Chrome and Edge 115+, Safari 26+, and no Firefox support
+
+### Added
+
+- README: a "Custom animations" section documenting `@keyframes` plus `data-animate="custom-name"`, which already worked (see 2026-02-21)
+
+---
+
 ## 2026-03-10 — Astro 6 compatibility
 
 ### Changed

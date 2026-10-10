@@ -204,6 +204,36 @@ Add `data-animate-stagger` to a parent to stagger the animation of its direct ch
 
 ---
 
+## Custom animations
+
+You are not limited to the seven built-in types. Define your own `@keyframes`, map them to a `data-animate` name, and the same observer handles the timing and triggering. Duration, delay, easing and the other attributes all apply.
+
+```astro
+<h2 data-animate="mask-reveal">Revealed on scroll</h2>
+
+<style is:global>
+  /* Map the animation type to a keyframe name */
+  [data-animate="mask-reveal"].is-animating {
+    animation-name: mask-reveal;
+  }
+
+  @keyframes mask-reveal {
+    from { clip-path: inset(0 100% 0 0); }
+    to   { clip-path: inset(0 0 0 0); }
+  }
+</style>
+```
+
+Use `is:global` so the styles are available to the animation system. The `is-animating` class is added by the observer when the element enters the viewport. Per-element timing works as for built-in types:
+
+```html
+<h2 data-animate="mask-reveal" data-animate-duration="1200" data-animate-easing="ease-out-3">
+  Custom timing
+</h2>
+```
+
+---
+
 ## TypeScript
 
 All types are exported:
@@ -236,7 +266,7 @@ All animations are automatically suppressed when the user has `prefers-reduced-m
 | Feature | Support |
 | :------ | :------ |
 | Scroll-triggered animations (`IntersectionObserver`) | All modern browsers |
-| CSS Scroll Timeline (`ScrollEffect`) | Chrome 115+, Safari 18+, Firefox 133+ |
+| CSS Scroll Timeline (`ScrollEffect`) | Chrome and Edge 115+, Safari 26+. Not supported in Firefox, where the element is shown without the effect |
 
 ---
 
