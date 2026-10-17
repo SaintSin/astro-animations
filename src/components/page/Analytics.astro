@@ -2,7 +2,7 @@
 // src/components/Analytics.astro
 // Core Web Vitals tracking only
 // Listens for Astro Page Load event
-// 2026-09-18T00:00:00Z
+// 2026-10-17T00:00:00Z
 
 const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 ---
@@ -15,10 +15,12 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 		}
 		window.__astro_analytics_initialized = true;
 
-		if (
-			location.hostname === "localhost" ||
-			location.hostname === "127.0.0.1"
-		) {
+		if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+			return;
+		}
+
+		// Lighthouse/PageSpeed and other automation are not visitors
+		if (navigator.webdriver || /headless/i.test(navigator.userAgent)) {
 			return;
 		}
 
@@ -34,11 +36,11 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 		// close, unlike the per-session sessionStorage id below, so repeat visits
 		// from the same browser can be recognized as one visitor over time.
 		function getOrCreateVisitorId() {
-			let visitorId = localStorage.getItem("astro_cwv_visitor");
+			let visitorId = localStorage.getItem('astro_cwv_visitor');
 			if (!visitorId) {
 				visitorId =
-					"v_" + Date.now() + "_" + Math.random().toString(36).substring(2, 11);
-				localStorage.setItem("astro_cwv_visitor", visitorId);
+					'v_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
+				localStorage.setItem('astro_cwv_visitor', visitorId);
 			}
 			return visitorId;
 		}
@@ -46,27 +48,43 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 		function getUtmParams() {
 			const params = new URLSearchParams(location.search);
 			return {
-				utm_source: params.get("utm_source") || null,
-				utm_medium: params.get("utm_medium") || null,
-				utm_campaign: params.get("utm_campaign") || null,
-				utm_term: params.get("utm_term") || null,
-				utm_content: params.get("utm_content") || null,
+				utm_source: params.get('utm_source') || null,
+				utm_medium: params.get('utm_medium') || null,
+				utm_campaign: params.get('utm_campaign') || null,
+				utm_term: params.get('utm_term') || null,
+				utm_content: params.get('utm_content') || null,
 			};
 		}
 
-		function trackPageCWV() {
-			// Disconnect any observers from the previous page
-			disconnectObservers();
+		function parseBrowser(ua) {
+			if (!ua) return 'Unknown';
+			const lower = ua.toLowerCase();
+			if (lower.includes('edg/')) {
+				const version = ua.match(/edg\/(\d+)/i);
+				return `Edge ${version ? version[1] : ''}`;
+			} else if (lower.includes('safari/') && !lower.includes('chrome')) {
+				const version = ua.match(/version\/(\d+)/i);
+				return `Safari ${version ? version[1] : ''}`;
+			} else if (lower.includes('chrome/') && !lower.includes('edg')) {
+				const version = ua.match(/chrome\/(\d+)/i);
+				return `Chrome ${version ? version[1] : ''}`;
+			} else if (lower.includes('firefox/')) {
+				const version = ua.match(/firefox\/(\d+)/i);
+				return `Firefox ${version ? version[1] : ''}`;
+			}
+			return 'Other';
+		}
 
+		// Sends the current page's metrics once; set by trackPageCWV()
+		let flushCurrent = null;
+
+		function trackPageCWV() {
 			// Simple session management - one per browser session
-			let sessionId = sessionStorage.getItem("astro_cwv_session");
+			let sessionId = sessionStorage.getItem('astro_cwv_session');
 			if (!sessionId) {
 				sessionId =
-					"cwv_" +
-					Date.now() +
-					"_" +
-					Math.random().toString(36).substring(2, 11);
-				sessionStorage.setItem("astro_cwv_session", sessionId);
+					'cwv_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
+				sessionStorage.setItem('astro_cwv_session', sessionId);
 			}
 
 			const currentPath = location.pathname;
@@ -74,7 +92,7 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 			// Per-page time-based deduplication (60 seconds)
 			const now = Date.now();
 			const lastSentKey = `cwv_sent_${currentPath}`;
-			const lastSent = parseInt(sessionStorage.getItem(lastSentKey) || "0");
+			const lastSent = parseInt(sessionStorage.getItem(lastSentKey) || '0');
 			const timeSinceLastSent = now - lastSent;
 			const cooldown = 60000; // 60s
 
@@ -82,28 +100,12 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 				return;
 			}
 
-			// Mark immediately so concurrent calls (e.g. astro:page-load + initial load) are deduplicated
+			// Mark immediately so concurrent calls (astro:page-load fires on initial load with ClientRouter) are deduplicated
 			sessionStorage.setItem(lastSentKey, now.toString());
 
-			// Browser detection
-			const parseBrowser = (ua) => {
-				if (!ua) return "Unknown";
-				const lower = ua.toLowerCase();
-				if (lower.includes("safari/") && !lower.includes("chrome")) {
-					const version = ua.match(/version\/(\d+)/i);
-					return `Safari ${version ? version[1] : ""}`;
-				} else if (lower.includes("edg/")) {
-					const version = ua.match(/edg\/(\d+)/i);
-					return `Edge ${version ? version[1] : ""}`;
-				} else if (lower.includes("chrome/") && !lower.includes("edg")) {
-					const version = ua.match(/chrome\/(\d+)/i);
-					return `Chrome ${version ? version[1] : ""}`;
-				} else if (lower.includes("firefox/")) {
-					const version = ua.match(/firefox\/(\d+)/i);
-					return `Firefox ${version ? version[1] : ""}`;
-				}
-				return "Other";
-			};
+			// Only after the dedupe check: a deduplicated call must not disconnect
+			// the observers the first call is still using for final LCP/CLS/INP
+			disconnectObservers();
 
 			const browser = parseBrowser(navigator.userAgent);
 
@@ -129,7 +131,7 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 			};
 
 			// TTFB - only meaningful for actual navigation, not view transitions
-			const navEntry = performance.getEntriesByType("navigation")[0];
+			const navEntry = performance.getEntriesByType('navigation')[0];
 			if (navEntry && navEntry.responseStart) {
 				metrics.ttfb = navEntry.responseStart;
 			}
@@ -144,7 +146,7 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 							lastEntry.renderTime || lastEntry.loadTime || lastEntry.startTime;
 					}
 				});
-				lcpObs.observe({ type: "largest-contentful-paint", buffered: true });
+				lcpObs.observe({ type: 'largest-contentful-paint', buffered: true });
 				activeObservers.push(lcpObs);
 			} catch (e) {}
 
@@ -152,12 +154,12 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 			try {
 				const fcpObs = new PerformanceObserver((list) => {
 					for (const entry of list.getEntries()) {
-						if (entry.name === "first-contentful-paint") {
+						if (entry.name === 'first-contentful-paint') {
 							metrics.fcp = entry.startTime;
 						}
 					}
 				});
-				fcpObs.observe({ type: "paint", buffered: true });
+				fcpObs.observe({ type: 'paint', buffered: true });
 				activeObservers.push(fcpObs);
 			} catch (e) {}
 
@@ -170,7 +172,7 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 						}
 					}
 				});
-				clsObs.observe({ type: "layout-shift", buffered: true });
+				clsObs.observe({ type: 'layout-shift', buffered: true });
 				activeObservers.push(clsObs);
 			} catch (e) {}
 
@@ -184,10 +186,10 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 						}
 					}
 					if (maxDelay > 0) {
-						metrics.inp = maxDelay;
+						metrics.inp = Math.max(maxDelay, metrics.inp || 0);
 					}
 				});
-				inpObs.observe({ type: "event", buffered: true, durationThreshold: 0 });
+				inpObs.observe({ type: 'event', buffered: true, durationThreshold: 0 });
 				activeObservers.push(inpObs);
 			} catch (e) {}
 
@@ -197,48 +199,59 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 				if (sent) return;
 				sent = true;
 
+				// Calculate time spent on this page
 				metrics.duration_ms = Date.now() - now;
 
 				// Disconnect observers before sending final values
 				disconnectObservers();
 
 				const blob = new Blob([JSON.stringify(metrics)], {
-					type: "application/json",
+					type: 'application/json',
 				});
 
 				if (navigator.sendBeacon) {
-					navigator.sendBeacon("/.netlify/functions/pandalytics", blob);
+					navigator.sendBeacon('/.netlify/functions/pandalytics', blob);
 				} else {
-					fetch("/.netlify/functions/pandalytics", {
-						method: "POST",
+					fetch('/.netlify/functions/pandalytics', {
+						method: 'POST',
 						body: JSON.stringify(metrics),
-						headers: { "Content-Type": "application/json" },
+						headers: { 'Content-Type': 'application/json' },
 						keepalive: true,
 					}).catch(() => {});
 				}
 			}
 
-			// Send on page hide (covers tab close, navigation away, tab switch)
-			document.addEventListener("visibilitychange", function onHide() {
-				if (document.visibilityState === "hidden") {
-					sendMetrics();
-					document.removeEventListener("visibilitychange", onHide);
-				}
-			});
-
-			// Fallback: send after 5s if page is still visible
-			setTimeout(() => {
-				sendMetrics();
-			}, 5000);
+			flushCurrent = sendMetrics;
 		}
 
-		// Track initial page load immediately (works with and without view transitions)
-		trackPageCWV();
-
-		// Also listen for astro:page-load (fires for view transitions)
-		// Early deduplication write prevents double-tracking if both trigger
-		document.addEventListener("astro:page-load", () => {
-			trackPageCWV();
+		// Send once per page when it is hidden/closed or when a ClientRouter
+		// navigation replaces it, so LCP/CLS/INP are final and quick exits are
+		// counted (sendBeacon survives unload). Soft navigations never fire
+		// pagehide/visibilitychange, hence astro:before-swap.
+		document.addEventListener('visibilitychange', () => {
+			if (document.visibilityState === 'hidden' && flushCurrent) flushCurrent();
 		});
+		addEventListener('pagehide', () => {
+			if (flushCurrent) flushCurrent();
+		});
+		document.addEventListener('astro:before-swap', () => {
+			if (flushCurrent) flushCurrent();
+		});
+
+		// Idle so the observer setup never counts toward Total Blocking Time
+		// (the observers are buffered, so nothing is missed).
+		function schedule() {
+			if ('requestIdleCallback' in window) {
+				requestIdleCallback(trackPageCWV, { timeout: 3000 });
+			} else {
+				setTimeout(trackPageCWV, 200);
+			}
+		}
+
+		// Initial load, then every ClientRouter navigation. astro:page-load also
+		// fires on the initial load; the 60s dedupe in trackPageCWV() absorbs it.
+		if (document.readyState === 'complete') schedule();
+		else addEventListener('load', schedule, { once: true });
+		document.addEventListener('astro:page-load', schedule);
 	})();
 </script>
